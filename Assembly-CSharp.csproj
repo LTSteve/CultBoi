@@ -63,6 +63,22 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\Behaviours\Billboard.cs" />
+    <Compile Include="Assets\Scripts\Controllers\Actions\IActionHandler.cs" />
+    <Compile Include="Assets\Scripts\Controllers\Actions\MoveDemonsActionHandler.cs" />
+    <Compile Include="Assets\Scripts\Controllers\Actions\SpawnDemonActionHandler.cs" />
+    <Compile Include="Assets\Scripts\Controllers\Controller.cs" />
+    <Compile Include="Assets\Scripts\Controllers\IntentManagers\DemonIntentManager.cs" />
+    <Compile Include="Assets\Scripts\Controllers\IntentManagers\IIntentManager.cs" />
+    <Compile Include="Assets\Scripts\Controllers\IntentManagers\KeyboardMouseIntentManager.cs" />
+    <Compile Include="Assets\Scripts\Controllers\Movers\BasicMover.cs" />
+    <Compile Include="Assets\Scripts\Controllers\Movers\IMover.cs" />
+    <Compile Include="Assets\Scripts\Controllers\Reciever\CommandReciever.cs" />
+    <Compile Include="Assets\Scripts\Controllers\Reciever\IReciever.cs" />
+    <Compile Include="Assets\Scripts\Controllers\Rotators\IRotator.cs" />
+    <Compile Include="Assets\Scripts\Controllers\Rotators\PlayerRotator.cs" />
+    <Compile Include="Assets\Scripts\Messaging\MessageHandler.cs" />
+    <Compile Include="Assets\Scripts\Models\Command.cs" />
     <Compile Include="Assets\Scripts\Pathfinding\GridBase.cs" />
     <Compile Include="Assets\Scripts\Pathfinding\Node.cs" />
     <Compile Include="Assets\Scripts\Pathfinding\Pathfinder.cs" />
@@ -90,6 +106,27 @@
     </Reference>
     <Reference Include="Unity.Analytics.DataPrivacy">
       <HintPath>D:/Projects/CultBoi/Library/ScriptAssemblies/Unity.Analytics.DataPrivacy.dll</HintPath>
+    </Reference>
+    <Reference Include="com.unity.multiplayer-hlapi.Editor">
+      <HintPath>D:/Projects/CultBoi/Library/ScriptAssemblies/com.unity.multiplayer-hlapi.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="com.unity.multiplayer-weaver.Editor">
+      <HintPath>D:/Projects/CultBoi/Library/ScriptAssemblies/com.unity.multiplayer-weaver.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.XR.LegacyInputHelpers">
+      <HintPath>D:/Projects/CultBoi/Library/ScriptAssemblies/UnityEngine.XR.LegacyInputHelpers.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.SpatialTracking">
+      <HintPath>D:/Projects/CultBoi/Library/ScriptAssemblies/UnityEditor.SpatialTracking.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.SpatialTracking">
+      <HintPath>D:/Projects/CultBoi/Library/ScriptAssemblies/UnityEngine.SpatialTracking.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.XR.LegacyInputHelpers">
+      <HintPath>D:/Projects/CultBoi/Library/ScriptAssemblies/UnityEditor.XR.LegacyInputHelpers.dll</HintPath>
+    </Reference>
+    <Reference Include="com.unity.multiplayer-hlapi.Runtime">
+      <HintPath>D:/Projects/CultBoi/Library/ScriptAssemblies/com.unity.multiplayer-hlapi.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>D:/Tools/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
