@@ -15,6 +15,8 @@ public class DemonIntentManager : MonoBehaviour, IIntentManager
 
     private IReciever<Command> commandReciever;
 
+    private IFormationHandler formation;
+
     void Start()
     {
         commandReciever = GetComponent<IReciever<Command>>();
@@ -28,17 +30,34 @@ public class DemonIntentManager : MonoBehaviour, IIntentManager
 
         if(activeCommand.Type != CommandType.Stand)
         {
-            var moveTo = commandLocation - transform.position;
-            var moveDir = moveTo.magnitude > 1f ? (commandLocation - transform.position).normalized : moveTo;
+            moveIntent = ParseMoveIntent(commandLocation, activeCommand.From.transform.position);
+        }
 
-            if(Vector3.Distance(commandLocation, activeCommand.From.transform.position) < Vector3.Distance(commandLocation, transform.position))
-            {
-                moveDir *= DoubletimeModifier;
-            }
+        if(formation == null)
+        {
+            formation = activeCommand.Formation;
+        }
 
-            moveIntent = new Vector2(moveDir.x, moveDir.z);
+        if(activeCommand.Type == CommandType.Formation)
+        {
+            var formationPosition = formation.GetMyPosition(this);
+
+            moveIntent = ParseMoveIntent(formationPosition, activeCommand.From.transform.position);
         }
 
         action1 = activeCommand.Type == CommandType.Action1;
+    }
+
+    private Vector3 ParseMoveIntent(Vector3 commandLocation, Vector3 commandFrom)
+    {
+        var movingVec = commandLocation - transform.position;
+        var moveDir = movingVec.magnitude > 1f ? (commandLocation - transform.position).normalized : movingVec;
+
+        if (Vector3.Distance(commandLocation, commandFrom) < Vector3.Distance(commandLocation, transform.position))
+        {
+            moveDir *= DoubletimeModifier;
+        }
+
+        return new Vector2(moveDir.x, moveDir.z);
     }
 }

@@ -68,10 +68,13 @@
     <Compile Include="Assets\Scripts\Controllers\Actions\MoveDemonsActionHandler.cs" />
     <Compile Include="Assets\Scripts\Controllers\Actions\SpawnDemonActionHandler.cs" />
     <Compile Include="Assets\Scripts\Controllers\Controller.cs" />
+    <Compile Include="Assets\Scripts\Controllers\Formations\CircleFormationHandler.cs" />
+    <Compile Include="Assets\Scripts\Controllers\Formations\IFormationHandler.cs" />
     <Compile Include="Assets\Scripts\Controllers\IntentManagers\DemonIntentManager.cs" />
     <Compile Include="Assets\Scripts\Controllers\IntentManagers\IIntentManager.cs" />
     <Compile Include="Assets\Scripts\Controllers\IntentManagers\KeyboardMouseIntentManager.cs" />
     <Compile Include="Assets\Scripts\Controllers\Movers\BasicMover.cs" />
+    <Compile Include="Assets\Scripts\Controllers\Movers\ForceMover.cs" />
     <Compile Include="Assets\Scripts\Controllers\Movers\IMover.cs" />
     <Compile Include="Assets\Scripts\Controllers\Reciever\CommandReciever.cs" />
     <Compile Include="Assets\Scripts\Controllers\Reciever\IReciever.cs" />
