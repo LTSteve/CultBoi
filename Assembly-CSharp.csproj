@@ -64,6 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\WorldGenerator.cs" />
+    <None Include="Assets\AnimationImporter\readme.txt" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>D:/Projects/CultBoi/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>
