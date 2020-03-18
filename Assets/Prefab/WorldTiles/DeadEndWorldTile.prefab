@@ -68,7 +68,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 4603455339990160366, guid: e1440027be8f0404d8587cb4ae093968,
+  m_Sprite: {fileID: -2142828324144449258, guid: e1440027be8f0404d8587cb4ae093968,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -89,6 +89,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1108389907140309239}
+  - component: {fileID: -4943706560403354212}
   m_Layer: 8
   m_Name: DeadEndWorldTile
   m_TagString: Untagged
@@ -111,3 +112,15 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-4943706560403354212
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1108389907140309238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d11c05deed0f0f43a4d5d73a0efc5b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

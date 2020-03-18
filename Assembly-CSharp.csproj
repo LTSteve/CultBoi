@@ -63,7 +63,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\Pathfinding\GridBase.cs" />
+    <Compile Include="Assets\Scripts\Pathfinding\Node.cs" />
+    <Compile Include="Assets\Scripts\Pathfinding\Pathfinder.cs" />
+    <Compile Include="Assets\Scripts\Pathfinding\PathfindMaster.cs" />
     <Compile Include="Assets\Scripts\WorldGenerator.cs" />
+    <Compile Include="Assets\Scripts\WorldTile.cs" />
     <None Include="Assets\AnimationImporter\readme.txt" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>D:/Projects/CultBoi/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
