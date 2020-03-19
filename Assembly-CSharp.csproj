@@ -64,6 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Behaviours\Billboard.cs" />
+    <Compile Include="Assets\Scripts\Behaviours\HealthDisplay.cs" />
     <Compile Include="Assets\Scripts\Behaviours\HouseDisplayGizmo.cs" />
     <Compile Include="Assets\Scripts\Behaviours\Spin.cs" />
     <Compile Include="Assets\Scripts\Controllers\Actions\AttackWithDemonsActionHandler.cs" />
@@ -74,6 +75,8 @@
     <Compile Include="Assets\Scripts\Controllers\Actions\SpawnDemonActionHandler.cs" />
     <Compile Include="Assets\Scripts\Controllers\AIController.cs" />
     <Compile Include="Assets\Scripts\Controllers\Controller.cs" />
+    <Compile Include="Assets\Scripts\Controllers\DeathHandlers\BasicDeathHandler.cs" />
+    <Compile Include="Assets\Scripts\Controllers\DeathHandlers\IDeathHandler.cs" />
     <Compile Include="Assets\Scripts\Controllers\Formations\CircleFormationHandler.cs" />
     <Compile Include="Assets\Scripts\Controllers\Formations\IFormationHandler.cs" />
     <Compile Include="Assets\Scripts\Controllers\HealthHandler\BasicHealthHandler.cs" />

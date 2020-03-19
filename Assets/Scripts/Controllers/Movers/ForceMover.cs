@@ -23,10 +23,8 @@ public class ForceMover : BasicMover
     private Collider[] activeCollisions;
 
     private Vector3 forceDir;
-
     protected override void Start()
     {
-        base.Start();
         myCollider = GetComponent<SphereCollider>();
     }
 
@@ -57,7 +55,7 @@ public class ForceMover : BasicMover
         {
             velocity = velocity.normalized * SpeedLimitScale;
         }
-        transform.position += velocity * Time.deltaTime;
+        transform.position += _physicalize(velocity * Time.deltaTime);
     }
 
     protected override void _moveToIntent(Vector2 moveIntent)
