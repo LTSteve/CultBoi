@@ -64,6 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Behaviours\Billboard.cs" />
+    <Compile Include="Assets\Scripts\Behaviours\HouseDisplayGizmo.cs" />
     <Compile Include="Assets\Scripts\Behaviours\Spin.cs" />
     <Compile Include="Assets\Scripts\Controllers\Actions\AttackWithDemonsActionHandler.cs" />
     <Compile Include="Assets\Scripts\Controllers\Actions\CommandDemonsActionHandler.cs" />
@@ -97,9 +98,13 @@
     <Compile Include="Assets\Scripts\Pathfinding\PathfindMaster.cs" />
     <Compile Include="Assets\Scripts\WorldGenerator.cs" />
     <Compile Include="Assets\Scripts\WorldTile.cs" />
+    <Compile Include="Assets\Scripts\WorldTileSubtype.cs" />
     <None Include="Assets\AnimationImporter\readme.txt" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>D:/Projects/CultBoi/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="com.unity.multiplayer-hlapi.Editor">
+      <HintPath>D:/Projects/CultBoi/Library/ScriptAssemblies/com.unity.multiplayer-hlapi.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>D:/Projects/CultBoi/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
@@ -113,15 +118,6 @@
     <Reference Include="Unity.CollabProxy.Editor">
       <HintPath>D:/Projects/CultBoi/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.TextMeshPro">
-      <HintPath>D:/Projects/CultBoi/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Analytics.DataPrivacy">
-      <HintPath>D:/Projects/CultBoi/Library/ScriptAssemblies/Unity.Analytics.DataPrivacy.dll</HintPath>
-    </Reference>
-    <Reference Include="com.unity.multiplayer-hlapi.Editor">
-      <HintPath>D:/Projects/CultBoi/Library/ScriptAssemblies/com.unity.multiplayer-hlapi.Editor.dll</HintPath>
-    </Reference>
     <Reference Include="com.unity.multiplayer-weaver.Editor">
       <HintPath>D:/Projects/CultBoi/Library/ScriptAssemblies/com.unity.multiplayer-weaver.Editor.dll</HintPath>
     </Reference>
@@ -133,6 +129,12 @@
     </Reference>
     <Reference Include="UnityEngine.SpatialTracking">
       <HintPath>D:/Projects/CultBoi/Library/ScriptAssemblies/UnityEngine.SpatialTracking.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.TextMeshPro">
+      <HintPath>D:/Projects/CultBoi/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Analytics.DataPrivacy">
+      <HintPath>D:/Projects/CultBoi/Library/ScriptAssemblies/Unity.Analytics.DataPrivacy.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.XR.LegacyInputHelpers">
       <HintPath>D:/Projects/CultBoi/Library/ScriptAssemblies/UnityEditor.XR.LegacyInputHelpers.dll</HintPath>
