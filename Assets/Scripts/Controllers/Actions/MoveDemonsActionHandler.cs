@@ -1,49 +1,36 @@
 ﻿using UnityEngine;
 
-public class MoveDemonsActionHandler : MonoBehaviour, IActionHandler
+public class MoveDemonsActionHandler : CommandDemonsActionHandler
 {
-    public int ActionNumber = 2;
 
-    public float CommandRadius = 2f;
-
-    private Controller demonPrefab;
-    private Controller me;
-    private IFormationHandler formation;
-
-    void Start()
+    public override void HandleAction(IIntentManager intent)
     {
-        formation = GetComponent<IFormationHandler>();
+        var acting = intent.mouseLocation.HasValue;
 
-        me = GetComponent<Controller>();
-    }
-
-    public void HandleAction(IIntentManager intent)
-    {
-        var acting = (ActionNumber == 1 && intent.action1) ||
-            (ActionNumber == 2 && intent.action2) ||
-            (ActionNumber == 3 && intent.action3);
-
-        var moveToPoint = transform.position;
+        var commandLocation = transform.position;
 
         if (acting)
         {
-            var mouseRay = Camera.main.ScreenPointToRay(intent.mouseLocation);
-            var intersectionPlane = new Plane(Vector3.up, transform.position);
-            intersectionPlane.Raycast(mouseRay, out var enter);
-            moveToPoint = mouseRay.GetPoint(enter);
-        }
+            commandLocation = GetCommandLocation(intent);
+            var command = BuildCommand(commandLocation);
 
-        if(Vector3.Distance(moveToPoint, transform.position) > CommandRadius)
-        {
-            moveToPoint = transform.position + (moveToPoint - transform.position).normalized * CommandRadius;
+            MessageHandler.SendMessage(command);
+            wasActive = true;
         }
-
-        MessageHandler.SendMessage<Command>(new Command
+        else if (wasActive)
         {
-            Type = moveToPoint == transform.position ? CommandType.Formation : CommandType.Move,
-            Location = moveToPoint,
-            From = me,
-            Formation = formation
-        });
+            wasActive = false;
+            MessageHandler.SendMessage<Command>(null);
+        }
+    }
+
+    protected override Command BuildCommand(Vector3 commandLocation)
+    {
+        return new Command
+        {
+            Type = CommandType.Move,
+            Location = commandLocation,
+            From = transform
+        };
     }
 }

@@ -1,28 +1,44 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+
+public enum Faction
+{
+    Player,
+    Demon,
+    Pedestrian,
+    Enemy
+}
+
 public class Controller : MonoBehaviour
 {
-    private IIntentManager intentManager;
-    private IMover mover;
-    private IRotator rotator;
+    public Faction Faction;
 
-    private IEnumerable<IActionHandler> actions;
+    protected IIntentManager intentManager;
+    protected IMover mover;
+    protected IRotator rotator;
+    protected IHealthHandler health;
 
-    void Start()
+    protected IEnumerable<IActionHandler> actions;
+
+    protected virtual void Start()
     {
         intentManager = GetComponent<IIntentManager>();
         mover = GetComponent<IMover>();
         rotator = GetComponent<IRotator>();
+        health = GetComponent<IHealthHandler>();
 
         actions = GetComponents<IActionHandler>();
     }
 
-    void Update()
+    protected virtual void Update()
     {
-        if(mover != null)
-            mover.Move(intentManager.moveIntent);
+        if(intentManager != null)
+            intentManager.UpdateIntent();
 
-        if(rotator != null)
+        if (mover != null)
+            mover.Move(intentManager);
+
+        if (rotator != null)
             rotator.Rotate(intentManager.lookIntent);
 
         if(actions != null)

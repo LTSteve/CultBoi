@@ -64,12 +64,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Behaviours\Billboard.cs" />
+    <Compile Include="Assets\Scripts\Behaviours\Spin.cs" />
+    <Compile Include="Assets\Scripts\Controllers\Actions\AttackWithDemonsActionHandler.cs" />
+    <Compile Include="Assets\Scripts\Controllers\Actions\CommandDemonsActionHandler.cs" />
+    <Compile Include="Assets\Scripts\Controllers\Actions\DemonActions\DemonAttackActionHandler.cs" />
     <Compile Include="Assets\Scripts\Controllers\Actions\IActionHandler.cs" />
     <Compile Include="Assets\Scripts\Controllers\Actions\MoveDemonsActionHandler.cs" />
     <Compile Include="Assets\Scripts\Controllers\Actions\SpawnDemonActionHandler.cs" />
+    <Compile Include="Assets\Scripts\Controllers\AIController.cs" />
     <Compile Include="Assets\Scripts\Controllers\Controller.cs" />
     <Compile Include="Assets\Scripts\Controllers\Formations\CircleFormationHandler.cs" />
     <Compile Include="Assets\Scripts\Controllers\Formations\IFormationHandler.cs" />
+    <Compile Include="Assets\Scripts\Controllers\HealthHandler\BasicHealthHandler.cs" />
+    <Compile Include="Assets\Scripts\Controllers\HealthHandler\IHealthHandler.cs" />
     <Compile Include="Assets\Scripts\Controllers\IntentManagers\DemonIntentManager.cs" />
     <Compile Include="Assets\Scripts\Controllers\IntentManagers\IIntentManager.cs" />
     <Compile Include="Assets\Scripts\Controllers\IntentManagers\KeyboardMouseIntentManager.cs" />
@@ -80,6 +87,8 @@
     <Compile Include="Assets\Scripts\Controllers\Reciever\IReciever.cs" />
     <Compile Include="Assets\Scripts\Controllers\Rotators\IRotator.cs" />
     <Compile Include="Assets\Scripts\Controllers\Rotators\PlayerRotator.cs" />
+    <Compile Include="Assets\Scripts\Controllers\Targeting\CommandTargetingHandler.cs" />
+    <Compile Include="Assets\Scripts\Controllers\Targeting\ITargetingHandler.cs" />
     <Compile Include="Assets\Scripts\Messaging\MessageHandler.cs" />
     <Compile Include="Assets\Scripts\Models\Command.cs" />
     <Compile Include="Assets\Scripts\Pathfinding\GridBase.cs" />

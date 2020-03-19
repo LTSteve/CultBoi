@@ -20,6 +20,13 @@ public class SpawnDemonActionHandler : MonoBehaviour, IActionHandler
 
         //TODO: nicer spawning
 
-        Instantiate(demonPrefab, transform.position, Quaternion.identity);
+        var demon = Instantiate(demonPrefab, transform.position, Quaternion.identity);
+
+        var intentManager = demon.GetComponent<DemonIntentManager>();
+        if(intentManager != null)
+        {
+            intentManager.formation = GetComponent<IFormationHandler>();
+            intentManager.parent = transform;
+        }
     }
 }

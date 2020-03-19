@@ -29,8 +29,9 @@ public class ForceMover : MonoBehaviour, IMover
         myCollider = GetComponent<SphereCollider>();
     }
 
-    public void Move(Vector2 intent)
+    public void Move(IIntentManager intent)
     {
+        /*
         var moveForce = MoveForce * Acceleration;
 
         var forceDir = transform.rotation * new Vector3(intent.x, 0, intent.y);
@@ -55,6 +56,7 @@ public class ForceMover : MonoBehaviour, IMover
             velocity = velocity.normalized * SpeedLimitScale;
         }
         transform.position += velocity * Time.deltaTime;
+        */
     }
 
     void FixedUpdate()

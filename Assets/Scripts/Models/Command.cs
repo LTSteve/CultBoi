@@ -6,15 +6,12 @@ public enum CommandType
     Action1,
     Action2,
     Action3,
-    Stand,
-    Formation
+    Stand
 }
 
 public class Command
 {
     public Vector3 Location;
     public CommandType Type;
-    public Controller From;
-
-    public IFormationHandler Formation { get; internal set; }
+    public Transform From;
 }

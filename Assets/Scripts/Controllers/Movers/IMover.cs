@@ -2,5 +2,5 @@
 
 public interface IMover
 {
-    void Move(Vector2 intent);
+    void Move(IIntentManager intent);
 }
