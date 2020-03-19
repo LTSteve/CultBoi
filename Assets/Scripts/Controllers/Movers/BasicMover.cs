@@ -5,21 +5,21 @@ public class BasicMover : MonoBehaviour, IMover
 {
     public float MoveSpeed = 10f;
 
-    private Transform moveTarget;
+    protected Transform moveTarget;
 
-    private ITargetingHandler targeting;
+    protected ITargetingHandler targeting;
 
-    void Start()
+    protected virtual void Start()
     {
         targeting = GetComponent<ITargetingHandler>();
     }
 
-    public void Move(IIntentManager intent)
+    public virtual void Move(IIntentManager intent)
     {
         var point = intent.moveTarget;
         var moveIntent = intent.moveIntent;
 
-        if(moveTarget != null)
+        if(moveTarget != null || intent.setTarget)
         {
             _moveToTarget(intent);
         }
@@ -33,17 +33,17 @@ public class BasicMover : MonoBehaviour, IMover
         }
     }
 
-    private void _moveToIntent(Vector2 moveIntent)
+    protected virtual void _moveToIntent(Vector2 moveIntent)
     {
         _move(transform.rotation * new Vector3(moveIntent.x, 0, moveIntent.y));
     }
 
-    private void _moveToPoint(Vector3 moveTo)
+    protected virtual void _moveToPoint(Vector3 moveTo)
     {
         _move((moveTo - transform.position).normalized);
     }
 
-    private void _moveToTarget(IIntentManager intent)
+    protected virtual void _moveToTarget(IIntentManager intent)
     {
         if (intent.unsetTarget)
         {
@@ -65,10 +65,14 @@ public class BasicMover : MonoBehaviour, IMover
             return;
         }
 
-        _moveToPoint(moveTarget.position);
+        if (moveTarget != null)
+            _moveToPoint(moveTarget.position);
+        else if (intent.moveTarget.HasValue)
+            _moveToPoint(intent.moveTarget.Value);
+
     }
 
-    private void _move(Vector3 moveDir)
+    protected virtual void _move(Vector3 moveDir)
     {
         transform.position += moveDir * MoveSpeed * Time.deltaTime;
     }

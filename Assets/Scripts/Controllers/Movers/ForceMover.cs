@@ -1,10 +1,8 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class ForceMover : MonoBehaviour, IMover
+public class ForceMover : BasicMover
 {
-    public float MoveForce = 10f;
-
     public float Acceleration = 1f;
 
     public float SpeedLimitScale = 3f;
@@ -24,20 +22,24 @@ public class ForceMover : MonoBehaviour, IMover
 
     private Collider[] activeCollisions;
 
-    void Start()
+    private Vector3 forceDir;
+
+    protected override void Start()
     {
+        base.Start();
         myCollider = GetComponent<SphereCollider>();
     }
 
-    public void Move(IIntentManager intent)
+    public override void Move(IIntentManager intent)
     {
-        /*
-        var moveForce = MoveForce * Acceleration;
+        forceDir = Vector3.zero;
 
-        var forceDir = transform.rotation * new Vector3(intent.x, 0, intent.y);
+        var moveForce = MoveSpeed * Acceleration;
+        
+        base.Move(intent);
 
-        if(activeCollisions != null)
-            foreach(var col in activeCollisions)
+        if (activeCollisions != null)
+            foreach (var col in activeCollisions)
             {
                 var distance = Vector3.Distance(transform.position, col.transform.position) - myCollider.radius;
 
@@ -51,12 +53,21 @@ public class ForceMover : MonoBehaviour, IMover
 
         velocity += forceDir * moveForce * Time.deltaTime;
 
-        if(velocity.magnitude > SpeedLimitScale * MoveForce)
+        if (velocity.magnitude > SpeedLimitScale * MoveSpeed)
         {
             velocity = velocity.normalized * SpeedLimitScale;
         }
         transform.position += velocity * Time.deltaTime;
-        */
+    }
+
+    protected override void _moveToIntent(Vector2 moveIntent)
+    {
+        forceDir = transform.rotation * new Vector3(moveIntent.x, 0, moveIntent.y);
+    }
+
+    protected override void _moveToPoint(Vector3 moveTo)
+    {
+        forceDir = (moveTo - transform.position).normalized;
     }
 
     void FixedUpdate()
