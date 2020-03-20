@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class ForceMover : BasicMover
@@ -10,6 +11,8 @@ public class ForceMover : BasicMover
     public float StopSeconds = 1f;
 
     public float PushedForce = 10f;
+
+    public float StandingThreshold = 0.1f;
 
     public string[] Mask = new string[]
     {
@@ -55,7 +58,17 @@ public class ForceMover : BasicMover
         {
             velocity = velocity.normalized * SpeedLimitScale;
         }
-        transform.position += _physicalize(velocity * Time.deltaTime);
+
+        var actualMove = _physicalize(velocity * Time.deltaTime);
+
+        if(actualMove.magnitude < (StandingThreshold * Time.deltaTime))
+        {
+            actualMove = Vector3.zero;
+        }
+
+        Moving?.Invoke(actualMove != Vector3.zero, actualMove);
+
+        transform.position += actualMove;
     }
 
     protected override void _moveToIntent(Vector2 moveIntent)

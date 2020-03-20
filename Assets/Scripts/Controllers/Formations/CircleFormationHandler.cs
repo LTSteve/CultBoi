@@ -13,6 +13,18 @@ public class CircleFormationHandler : MonoBehaviour, IFormationHandler
     private List<IIntentManager> controlled = new List<IIntentManager>();
     private float radians = 0;
 
+    private bool moving = false;
+
+    void Start()
+    {
+        var myMover = GetComponent<IMover>();
+        
+        if(myMover != null)
+        {
+            myMover.Moving += OnMove;
+        }
+    }
+
     public Vector3 GetMyPosition(IIntentManager intent)
     {
         var formationIndex = 0;
@@ -35,6 +47,12 @@ public class CircleFormationHandler : MonoBehaviour, IFormationHandler
 
     void Update()
     {
-        radians = (radians + CircleSpeed * Time.deltaTime) % (2 * Mathf.PI);
+        if(moving)
+            radians = (radians + CircleSpeed * Time.deltaTime) % (2 * Mathf.PI);
+    }
+
+    private void OnMove(bool m, Vector3 direction)
+    {
+        moving = m;
     }
 }
