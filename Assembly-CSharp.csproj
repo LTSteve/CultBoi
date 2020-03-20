@@ -94,6 +94,8 @@
     <Compile Include="Assets\Scripts\Controllers\Movers\BasicMover.cs" />
     <Compile Include="Assets\Scripts\Controllers\Movers\ForceMover.cs" />
     <Compile Include="Assets\Scripts\Controllers\Movers\IMover.cs" />
+    <Compile Include="Assets\Scripts\Controllers\PathHandlers\IPathHandler.cs" />
+    <Compile Include="Assets\Scripts\Controllers\PathHandlers\PedestrianPathHandler.cs" />
     <Compile Include="Assets\Scripts\Controllers\Reciever\CommandReciever.cs" />
     <Compile Include="Assets\Scripts\Controllers\Reciever\IReciever.cs" />
     <Compile Include="Assets\Scripts\Controllers\Rotators\IRotator.cs" />
@@ -102,10 +104,12 @@
     <Compile Include="Assets\Scripts\Controllers\Targeting\ITargetingHandler.cs" />
     <Compile Include="Assets\Scripts\Messaging\MessageHandler.cs" />
     <Compile Include="Assets\Scripts\Models\Command.cs" />
-    <Compile Include="Assets\Scripts\Pathfinding\GridBase.cs" />
-    <Compile Include="Assets\Scripts\Pathfinding\Node.cs" />
-    <Compile Include="Assets\Scripts\Pathfinding\Pathfinder.cs" />
-    <Compile Include="Assets\Scripts\Pathfinding\PathfindMaster.cs" />
+    <Compile Include="Assets\Scripts\Pathfinding\AStar.cs" />
+    <Compile Include="Assets\Scripts\Pathfinding\Example\GridBase.cs" />
+    <Compile Include="Assets\Scripts\Pathfinding\Example\Node.cs" />
+    <Compile Include="Assets\Scripts\Pathfinding\Example\Pathfinder.cs" />
+    <Compile Include="Assets\Scripts\Pathfinding\Example\PathfindMaster.cs" />
+    <Compile Include="Assets\Scripts\Pathfinding\PathingController.cs" />
     <Compile Include="Assets\Scripts\Rendering\CommandBufferBlur.cs" />
     <Compile Include="Assets\Scripts\Rendering\PerObjectBloom.cs" />
     <Compile Include="Assets\Scripts\Rendering\PerObjectBloomPass.cs" />
