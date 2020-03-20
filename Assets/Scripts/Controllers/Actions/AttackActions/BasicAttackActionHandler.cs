@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
 
-public class DemonAttackActionHandler : MonoBehaviour, IActionHandler
+public class BasicAttackActionHandler : MonoBehaviour, IActionHandler
 {
     public int ActionNumber = 1;
 
     public float AttackRange = 4f;
 
-    private float AttackRate = 1f;
-    private float AttackDamage = 5f;
+    public float AttackRate = 1f;
+    public float AttackDamage = 5f;
 
     private Transform target;
 
@@ -41,6 +41,8 @@ public class DemonAttackActionHandler : MonoBehaviour, IActionHandler
 
         if (target == null) return;
 
+        var targetDistance = Vector3.Distance(target.position, transform.position);
+
         handleAttack(Vector3.Distance(target.position, transform.position), target);
     }
 
@@ -60,8 +62,24 @@ public class DemonAttackActionHandler : MonoBehaviour, IActionHandler
 
         var enemy = target.GetComponent<IHealthHandler>();
 
-        if (enemy != null) enemy.Damage(AttackDamage);
+        if (enemy != null) { enemy.Damage(AttackDamage); TempDrawLine(transform.position, target.position); }
 
         attackCooldown = AttackRate;
+    }
+
+    private void TempDrawLine(Vector3 start, Vector3 end)
+    {
+        GameObject myLine = new GameObject();
+        myLine.transform.position = start;
+        myLine.AddComponent<LineRenderer>();
+        LineRenderer lr = myLine.GetComponent<LineRenderer>();
+        lr.material = new Material(Shader.Find("Sprites/Default"));
+        lr.startColor = Color.red;
+        lr.endColor = Color.white;
+        lr.startWidth = 0.1f;
+        lr.endWidth = 0.1f;
+        lr.SetPosition(0, start);
+        lr.SetPosition(1, end);
+        GameObject.Destroy(myLine, 0.2f);
     }
 }

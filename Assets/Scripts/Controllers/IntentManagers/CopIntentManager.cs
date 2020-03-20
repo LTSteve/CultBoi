@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Linq;
 
 public class CopIntentManager : MonoBehaviour, IIntentManager
 {
@@ -12,8 +13,47 @@ public class CopIntentManager : MonoBehaviour, IIntentManager
     public bool action3 { get; private set; } = false;
     public Vector3? mouseLocation { get; private set; } = null;
 
+    public float AggroRange = 10f;
+
+    //TODO: public float AggroThreshold
+
+    private Transform target;
+
+    private bool aggro = false;
+
+    private ITargetingHandler targeting;
+
+
+    void Start()
+    {
+        targeting = GetComponent<ITargetingHandler>();
+    }
+
     public void UpdateIntent()
     {
+        moveIntent = null;
+        moveTarget = null;
+        setTarget = false;
+        unsetTarget = false;
 
+        if (target != null && Vector3.Distance(transform.position, target.transform.position) > AggroRange)
+        {
+            target = null;
+            unsetTarget = true;
+        }
+
+        target = target != null ? target : targeting?.AcquireTarget();
+        if (!aggro && target != null)
+        {
+            aggro = true;
+            setTarget = true;
+        }
+
+        if(aggro && target != null)
+        {
+            moveTarget = target.position;
+        }
+
+        action1 = aggro;
     }
 }

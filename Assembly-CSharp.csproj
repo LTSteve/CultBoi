@@ -69,9 +69,9 @@
     <Compile Include="Assets\Scripts\Behaviours\Pedwalk.cs" />
     <Compile Include="Assets\Scripts\Behaviours\PedwalkPoint.cs" />
     <Compile Include="Assets\Scripts\Behaviours\Spin.cs" />
+    <Compile Include="Assets\Scripts\Controllers\Actions\AttackActions\BasicAttackActionHandler.cs" />
     <Compile Include="Assets\Scripts\Controllers\Actions\AttackWithDemonsActionHandler.cs" />
     <Compile Include="Assets\Scripts\Controllers\Actions\CommandDemonsActionHandler.cs" />
-    <Compile Include="Assets\Scripts\Controllers\Actions\DemonActions\DemonAttackActionHandler.cs" />
     <Compile Include="Assets\Scripts\Controllers\Actions\IActionHandler.cs" />
     <Compile Include="Assets\Scripts\Controllers\Actions\MoveDemonsActionHandler.cs" />
     <Compile Include="Assets\Scripts\Controllers\Actions\SpawnDemonActionHandler.cs" />
@@ -96,7 +96,6 @@
     <Compile Include="Assets\Scripts\Controllers\Rotators\IRotator.cs" />
     <Compile Include="Assets\Scripts\Controllers\Rotators\PlayerRotator.cs" />
     <Compile Include="Assets\Scripts\Controllers\Targeting\CommandTargetingHandler.cs" />
-    <Compile Include="Assets\Scripts\Controllers\Targeting\CopTargetingHandler.cs" />
     <Compile Include="Assets\Scripts\Controllers\Targeting\ITargetingHandler.cs" />
     <Compile Include="Assets\Scripts\Messaging\MessageHandler.cs" />
     <Compile Include="Assets\Scripts\Models\Command.cs" />
