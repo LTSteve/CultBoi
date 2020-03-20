@@ -69,6 +69,7 @@
     <Compile Include="Assets\Scripts\Behaviours\Pedwalk.cs" />
     <Compile Include="Assets\Scripts\Behaviours\PedwalkPoint.cs" />
     <Compile Include="Assets\Scripts\Behaviours\Spin.cs" />
+    <Compile Include="Assets\Scripts\Controllers\Actions\AttackActions\AttackActionHandler.cs" />
     <Compile Include="Assets\Scripts\Controllers\Actions\AttackActions\BasicAttackActionHandler.cs" />
     <Compile Include="Assets\Scripts\Controllers\Actions\AttackWithDemonsActionHandler.cs" />
     <Compile Include="Assets\Scripts\Controllers\Actions\CommandDemonsActionHandler.cs" />
@@ -76,6 +77,8 @@
     <Compile Include="Assets\Scripts\Controllers\Actions\MoveDemonsActionHandler.cs" />
     <Compile Include="Assets\Scripts\Controllers\Actions\SpawnDemonActionHandler.cs" />
     <Compile Include="Assets\Scripts\Controllers\AIController.cs" />
+    <Compile Include="Assets\Scripts\Controllers\AnimationHandler\BasicAnimationHandler.cs" />
+    <Compile Include="Assets\Scripts\Controllers\AnimationHandler\IAnimationHandler.cs" />
     <Compile Include="Assets\Scripts\Controllers\Controller.cs" />
     <Compile Include="Assets\Scripts\Controllers\DeathHandlers\BasicDeathHandler.cs" />
     <Compile Include="Assets\Scripts\Controllers\DeathHandlers\IDeathHandler.cs" />

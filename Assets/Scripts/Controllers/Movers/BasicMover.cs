@@ -12,6 +12,7 @@ public class BasicMover : MonoBehaviour, IMover
     public float AdvanceToRange = 4f;
 
     public string[] ObjectsMask = { "Objects" };
+    public Action<bool, Vector3> Moving { get; set; }
 
     protected Transform moveTarget;
 
@@ -30,15 +31,20 @@ public class BasicMover : MonoBehaviour, IMover
         if(moveTarget != null || intent.setTarget)
         {
             _moveToTarget(intent);
+            return;
         }
         else if (point.HasValue)
         {
             _moveToPoint(point.Value);
+            return;
         }
         else if(moveIntent.HasValue)
         {
             _moveToIntent(moveIntent.Value);
+            return;
         }
+
+        Moving?.Invoke(false, Vector3.zero);
     }
 
     protected virtual void _moveToIntent(Vector2 moveIntent)
@@ -71,11 +77,13 @@ public class BasicMover : MonoBehaviour, IMover
         {
             if(intent.moveTarget.HasValue)
                 _moveToPoint(intent.moveTarget.Value);
+            Moving?.Invoke(false, Vector3.zero);
             return;
         }
 
         if (Vector3.Distance(transform.position, moveTarget.position) <= AdvanceToRange)
         {
+            Moving?.Invoke(false, Vector3.zero);
             return;
         }
 
@@ -85,11 +93,16 @@ public class BasicMover : MonoBehaviour, IMover
     protected virtual void _move(Vector3 moveDir)
     {
         var movement = _physicalize(moveDir * MoveSpeed * Time.deltaTime);
+
+        Moving?.Invoke(movement != Vector3.zero, movement);
+
         transform.position += movement;
     }
 
     protected Vector3 _physicalize(Vector3 movement)
     {
+        movement = new Vector3(movement.x, 0, movement.z);
+
         var checkDir = movement + movement.normalized * ObjectCollisionDistance;
 
         var checkRay = new Ray(transform.position, checkDir.normalized);
