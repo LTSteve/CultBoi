@@ -225,7 +225,7 @@ public class WorldGenerator : MonoBehaviour
         //nothing
         if (!me)
         {
-            map.Add(Instantiate(WorldTiles[5], position, Quaternion.identity, transform));
+            map.Add(Instantiate(WorldTiles[6], position, Quaternion.identity, transform));
         }
         //Intersection
         else if (left && right && up && down)
@@ -295,7 +295,7 @@ public class WorldGenerator : MonoBehaviour
         //nothing
         else
         {
-            map.Add(Instantiate(WorldTiles[5], position, Quaternion.identity, transform));
+            map.Add(Instantiate(WorldTiles[6], position, Quaternion.identity, transform));
         }
     }
 

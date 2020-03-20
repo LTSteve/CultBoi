@@ -9,6 +9,8 @@ public class BasicMover : MonoBehaviour, IMover
 
     public float StuckSaftyDistance = 0.1f;
 
+    public float AdvanceToRange = 4f;
+
     public string[] ObjectsMask = { "Objects" };
 
     protected Transform moveTarget;
@@ -64,18 +66,20 @@ public class BasicMover : MonoBehaviour, IMover
                 Debug.Log("movetome");
             }
         }
-        
-        if (moveTarget == null && intent.moveTarget.HasValue)
+
+        if (moveTarget == null)
         {
-            _moveToPoint(intent.moveTarget.Value);
+            if(intent.moveTarget.HasValue)
+                _moveToPoint(intent.moveTarget.Value);
             return;
         }
 
-        if (moveTarget != null)
-            _moveToPoint(moveTarget.position);
-        else if (intent.moveTarget.HasValue)
-            _moveToPoint(intent.moveTarget.Value);
+        if (Vector3.Distance(transform.position, moveTarget.position) <= AdvanceToRange)
+        {
+            return;
+        }
 
+        _moveToPoint(moveTarget.position);
     }
 
     protected virtual void _move(Vector3 moveDir)
