@@ -8,7 +8,7 @@ public class SpawnDemonActionHandler : MonoBehaviour, IActionHandler
 
     void Start()
     {
-        demonPrefab = Resources.Load<Controller>("Prefab/Demon");
+        demonPrefab = Resources.Load<Controller>("Prefab/Entities/Demon");
     }
 
     public void HandleAction(IIntentManager intent)
