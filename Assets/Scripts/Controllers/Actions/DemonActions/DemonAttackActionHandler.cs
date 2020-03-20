@@ -6,11 +6,16 @@ public class DemonAttackActionHandler : MonoBehaviour, IActionHandler
 
     public float AttackRange = 4f;
 
+    private float AttackRate = 1f;
+    private float AttackDamage = 5f;
+
     private Transform target;
 
     private bool acting;
 
     private ITargetingHandler targeting;
+
+    private float attackCooldown = 0;
 
     void Start()
     {
@@ -36,9 +41,27 @@ public class DemonAttackActionHandler : MonoBehaviour, IActionHandler
 
         if (target == null) return;
 
-        if(Vector3.Distance(target.position, transform.position) < AttackRange)
+        handleAttack(Vector3.Distance(target.position, transform.position), target);
+    }
+
+    private void handleAttack(float distance, Transform target)
+    {
+        attackCooldown -= Time.deltaTime;
+
+        if(attackCooldown > 0)
         {
-            Debug.Log("ATTACK");
+            return;
         }
+
+        if (distance > AttackRange)
+        {
+            return;
+        }
+
+        var enemy = target.GetComponent<IHealthHandler>();
+
+        if (enemy != null) enemy.Damage(AttackDamage);
+
+        attackCooldown = AttackRate;
     }
 }

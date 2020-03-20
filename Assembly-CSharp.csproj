@@ -64,7 +64,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Behaviours\Billboard.cs" />
+    <Compile Include="Assets\Scripts\Behaviours\HealthDisplay.cs" />
     <Compile Include="Assets\Scripts\Behaviours\HouseDisplayGizmo.cs" />
+    <Compile Include="Assets\Scripts\Behaviours\Pedwalk.cs" />
+    <Compile Include="Assets\Scripts\Behaviours\PedwalkPoint.cs" />
     <Compile Include="Assets\Scripts\Behaviours\Spin.cs" />
     <Compile Include="Assets\Scripts\Controllers\Actions\AttackWithDemonsActionHandler.cs" />
     <Compile Include="Assets\Scripts\Controllers\Actions\CommandDemonsActionHandler.cs" />
@@ -74,13 +77,17 @@
     <Compile Include="Assets\Scripts\Controllers\Actions\SpawnDemonActionHandler.cs" />
     <Compile Include="Assets\Scripts\Controllers\AIController.cs" />
     <Compile Include="Assets\Scripts\Controllers\Controller.cs" />
+    <Compile Include="Assets\Scripts\Controllers\DeathHandlers\BasicDeathHandler.cs" />
+    <Compile Include="Assets\Scripts\Controllers\DeathHandlers\IDeathHandler.cs" />
     <Compile Include="Assets\Scripts\Controllers\Formations\CircleFormationHandler.cs" />
     <Compile Include="Assets\Scripts\Controllers\Formations\IFormationHandler.cs" />
     <Compile Include="Assets\Scripts\Controllers\HealthHandler\BasicHealthHandler.cs" />
     <Compile Include="Assets\Scripts\Controllers\HealthHandler\IHealthHandler.cs" />
+    <Compile Include="Assets\Scripts\Controllers\IntentManagers\CopIntentManager.cs" />
     <Compile Include="Assets\Scripts\Controllers\IntentManagers\DemonIntentManager.cs" />
     <Compile Include="Assets\Scripts\Controllers\IntentManagers\IIntentManager.cs" />
     <Compile Include="Assets\Scripts\Controllers\IntentManagers\KeyboardMouseIntentManager.cs" />
+    <Compile Include="Assets\Scripts\Controllers\IntentManagers\PedestrianIntentManager.cs" />
     <Compile Include="Assets\Scripts\Controllers\Movers\BasicMover.cs" />
     <Compile Include="Assets\Scripts\Controllers\Movers\ForceMover.cs" />
     <Compile Include="Assets\Scripts\Controllers\Movers\IMover.cs" />
@@ -89,6 +96,7 @@
     <Compile Include="Assets\Scripts\Controllers\Rotators\IRotator.cs" />
     <Compile Include="Assets\Scripts\Controllers\Rotators\PlayerRotator.cs" />
     <Compile Include="Assets\Scripts\Controllers\Targeting\CommandTargetingHandler.cs" />
+    <Compile Include="Assets\Scripts\Controllers\Targeting\CopTargetingHandler.cs" />
     <Compile Include="Assets\Scripts\Controllers\Targeting\ITargetingHandler.cs" />
     <Compile Include="Assets\Scripts\Messaging\MessageHandler.cs" />
     <Compile Include="Assets\Scripts\Models\Command.cs" />

@@ -5,6 +5,12 @@ public class BasicMover : MonoBehaviour, IMover
 {
     public float MoveSpeed = 10f;
 
+    public float ObjectCollisionDistance = 1f;
+
+    public float StuckSaftyDistance = 0.1f;
+
+    public string[] ObjectsMask = { "Objects" };
+
     protected Transform moveTarget;
 
     protected ITargetingHandler targeting;
@@ -74,6 +80,34 @@ public class BasicMover : MonoBehaviour, IMover
 
     protected virtual void _move(Vector3 moveDir)
     {
-        transform.position += moveDir * MoveSpeed * Time.deltaTime;
+        var movement = _physicalize(moveDir * MoveSpeed * Time.deltaTime);
+        transform.position += movement;
+    }
+
+    protected Vector3 _physicalize(Vector3 movement)
+    {
+        var checkDir = movement + movement.normalized * ObjectCollisionDistance;
+
+        var checkRay = new Ray(transform.position, checkDir.normalized);
+
+        if (Physics.Raycast(checkRay, out var hit, checkDir.magnitude, LayerMask.GetMask(ObjectsMask)) && hit.distance > StuckSaftyDistance)
+        {
+            //move partly there
+            var partialMovementMag = hit.distance - ObjectCollisionDistance;
+            transform.position += partialMovementMag * movement.normalized;
+
+            //turn the rest of the vector
+            var remainingMag = (movement.magnitude - partialMovementMag);
+            movement = movement.normalized * remainingMag;
+
+            var penetration = -Vector3.Dot(hit.normal, movement);
+            movement += hit.normal * penetration;
+
+            return movement.normalized * remainingMag;
+        }
+        else
+        {
+            return movement;
+        }
     }
 }

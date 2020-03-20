@@ -19,11 +19,11 @@ public class BasicHealthHandler : MonoBehaviour, IHealthHandler
     {
         CurrentHealth -= amount;
 
-        Damaged(transform, amount);
+        Damaged?.Invoke(transform, amount);
 
-        if(CurrentHealth < 0)
+        if (CurrentHealth < 0)
         {
-            Died(transform);
+            Died?.Invoke(transform);
         }
     }
 }
