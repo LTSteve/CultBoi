@@ -29,4 +29,9 @@ public class BasicHealthHandler : MonoBehaviour, IHealthHandler
             Died?.Invoke(transform);
         }
     }
+
+    public void Reset()
+    {
+        CurrentHealth = MaxHealth;
+    }
 }

@@ -1,18 +1,14 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
-public class BasicDeathHandler : MonoBehaviour, IDeathHandler
+public class PlayerDeathHandler : MonoBehaviour, IDeathHandler
 {
     public Transform DeathEffectPrefab;
 
     public Vector3 SpatterPoint = new Vector3(0, 2, 0);
 
-    public bool DeathAnimation = true;
-
-    private IAnimationHandler anims;
-
     void Start()
     {
-        anims = GetComponent<IAnimationHandler>();
 
         var health = GetComponent<IHealthHandler>();
 
@@ -25,7 +21,12 @@ public class BasicDeathHandler : MonoBehaviour, IDeathHandler
     {
         if (DeathEffectPrefab != null) Instantiate(DeathEffectPrefab, transform.position + SpatterPoint, Quaternion.identity);
 
-        if (!DeathAnimation)
-            Destroy(this.gameObject);
+        StartCoroutine(_slowDeath());
+        DeathScreen.Instance.Open(transform);
+    }
+
+    IEnumerator _slowDeath()
+    {
+        yield return new WaitForSeconds(1f);
     }
 }

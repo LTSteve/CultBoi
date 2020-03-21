@@ -50,6 +50,19 @@ public class CopIntentManager : MonoBehaviour, IIntentManager
         target = target != null ? target : targeting?.AcquireTarget();
         if (!aggro && target != null)
         {
+            var houseTaker = target.GetComponent<IHouseTaker>();
+            if (houseTaker != null && houseTaker.TakingHouse)
+            {
+                CopAlert.Level += 0.2f * Time.deltaTime;
+            }
+            else
+            {
+                CopAlert.Level += 0.05f * Time.deltaTime;
+            }
+        }
+
+        if(CopAlert.Level >= 1f && !aggro && target != null)
+        {
             aggro = true;
             setTarget = true;
         }

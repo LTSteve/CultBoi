@@ -85,6 +85,7 @@
     <Compile Include="Assets\Scripts\Controllers\Controller.cs" />
     <Compile Include="Assets\Scripts\Controllers\DeathHandlers\BasicDeathHandler.cs" />
     <Compile Include="Assets\Scripts\Controllers\DeathHandlers\IDeathHandler.cs" />
+    <Compile Include="Assets\Scripts\Controllers\DeathHandlers\PlayerDeathHandler.cs" />
     <Compile Include="Assets\Scripts\Controllers\Formations\CircleFormationHandler.cs" />
     <Compile Include="Assets\Scripts\Controllers\Formations\IFormationHandler.cs" />
     <Compile Include="Assets\Scripts\Controllers\HealthHandler\BasicHealthHandler.cs" />
@@ -125,6 +126,8 @@
     <Compile Include="Assets\Scripts\Rendering\PerObjectBloomPass.cs" />
     <Compile Include="Assets\Scripts\Rendering\PerObjectBloomTarget.cs" />
     <Compile Include="Assets\Scripts\UI\BuyMenu.cs" />
+    <Compile Include="Assets\Scripts\UI\CopAlert.cs" />
+    <Compile Include="Assets\Scripts\UI\DeathScreen.cs" />
     <Compile Include="Assets\Scripts\UI\InterfaceMessage.cs" />
     <Compile Include="Assets\Scripts\UI\PressButtonInterfaceMessage.cs" />
     <Compile Include="Assets\Scripts\WorldGenerator.cs" />
