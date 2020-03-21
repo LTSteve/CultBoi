@@ -42,6 +42,8 @@ public class ForceMover : BasicMover
         if (activeCollisions != null)
             foreach (var col in activeCollisions)
             {
+                if (col == null || col.gameObject == null || !col.gameObject.activeSelf) { continue; }
+
                 var distance = Vector3.Distance(transform.position, col.transform.position) - myCollider.radius;
 
                 var pushLevel = Mathf.Clamp((1f - (distance / myCollider.radius)), 0f, 1f);
