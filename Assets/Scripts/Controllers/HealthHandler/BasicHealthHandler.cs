@@ -4,6 +4,7 @@ using UnityEngine;
 public class BasicHealthHandler : MonoBehaviour, IHealthHandler
 {
     public float Health = 100f;
+    public float HealthStart = 100f;
 
     public float MaxHealth { get; private set; }
     public float CurrentHealth { get; private set; }
@@ -12,7 +13,9 @@ public class BasicHealthHandler : MonoBehaviour, IHealthHandler
 
     void Start()
     {
-        MaxHealth = CurrentHealth = Health;
+        MaxHealth = Health;
+
+        CurrentHealth = HealthStart;
     }
 
     public void Damage(float amount)

@@ -6,7 +6,7 @@ using System;
 
 public class WorldGenerator : MonoBehaviour
 {
-
+    public static WorldGenerator Instance;
     public static PathingController Pathing;
 
     public List<Transform> WorldTiles;
@@ -34,6 +34,7 @@ public class WorldGenerator : MonoBehaviour
 
     private void Awake()
     {
+        Instance = this;
         Pathing = new PathingController();
     }
 

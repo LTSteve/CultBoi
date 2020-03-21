@@ -86,11 +86,16 @@
     <Compile Include="Assets\Scripts\Controllers\Formations\IFormationHandler.cs" />
     <Compile Include="Assets\Scripts\Controllers\HealthHandler\BasicHealthHandler.cs" />
     <Compile Include="Assets\Scripts\Controllers\HealthHandler\IHealthHandler.cs" />
+    <Compile Include="Assets\Scripts\Controllers\HouseController.cs" />
+    <Compile Include="Assets\Scripts\Controllers\HouseTaker\HouseTaker.cs" />
+    <Compile Include="Assets\Scripts\Controllers\HouseTaker\IHouseTaker.cs" />
     <Compile Include="Assets\Scripts\Controllers\IntentManagers\CopIntentManager.cs" />
     <Compile Include="Assets\Scripts\Controllers\IntentManagers\DemonIntentManager.cs" />
     <Compile Include="Assets\Scripts\Controllers\IntentManagers\IIntentManager.cs" />
     <Compile Include="Assets\Scripts\Controllers\IntentManagers\KeyboardMouseIntentManager.cs" />
     <Compile Include="Assets\Scripts\Controllers\IntentManagers\PedestrianIntentManager.cs" />
+    <Compile Include="Assets\Scripts\Controllers\MessageDisplayer\ConvertHouseMessageDisplayer.cs" />
+    <Compile Include="Assets\Scripts\Controllers\MessageDisplayer\IMessageDisplayer.cs" />
     <Compile Include="Assets\Scripts\Controllers\Movers\BasicMover.cs" />
     <Compile Include="Assets\Scripts\Controllers\Movers\ForceMover.cs" />
     <Compile Include="Assets\Scripts\Controllers\Movers\IMover.cs" />
@@ -102,6 +107,8 @@
     <Compile Include="Assets\Scripts\Controllers\Rotators\PlayerRotator.cs" />
     <Compile Include="Assets\Scripts\Controllers\Targeting\CommandTargetingHandler.cs" />
     <Compile Include="Assets\Scripts\Controllers\Targeting\ITargetingHandler.cs" />
+    <Compile Include="Assets\Scripts\Controllers\TriggerHandlers\BasicTriggerHandler.cs" />
+    <Compile Include="Assets\Scripts\Controllers\TriggerHandlers\ITriggerHandler.cs" />
     <Compile Include="Assets\Scripts\Messaging\MessageHandler.cs" />
     <Compile Include="Assets\Scripts\Models\Command.cs" />
     <Compile Include="Assets\Scripts\Pathfinding\AStar.cs" />
@@ -114,6 +121,8 @@
     <Compile Include="Assets\Scripts\Rendering\PerObjectBloom.cs" />
     <Compile Include="Assets\Scripts\Rendering\PerObjectBloomPass.cs" />
     <Compile Include="Assets\Scripts\Rendering\PerObjectBloomTarget.cs" />
+    <Compile Include="Assets\Scripts\UI\InterfaceMessage.cs" />
+    <Compile Include="Assets\Scripts\UI\PressButtonInterfaceMessage.cs" />
     <Compile Include="Assets\Scripts\WorldGenerator.cs" />
     <Compile Include="Assets\Scripts\WorldTile.cs" />
     <Compile Include="Assets\Scripts\WorldTileSubtype.cs" />
