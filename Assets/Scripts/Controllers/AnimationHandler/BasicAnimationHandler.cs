@@ -10,6 +10,9 @@ public class BasicAnimationHandler : MonoBehaviour, IAnimationHandler
     private Animator myAnimator;
 
     private Vector3 animatorScale;
+    private Vector3 animatorRotation;
+
+    private Material myMaterial;
 
     void Start()
     {
@@ -20,7 +23,10 @@ public class BasicAnimationHandler : MonoBehaviour, IAnimationHandler
         myAnimator = GetComponentInChildren<Animator>();
         if (myAnimator == null) return;
 
+        myMaterial = GetComponentInChildren<Renderer>().material;
+
         animatorScale = myAnimator.transform.localScale;
+        animatorRotation = myAnimator.transform.localRotation.eulerAngles;
 
         if (mover != null)
         {
@@ -66,6 +72,10 @@ public class BasicAnimationHandler : MonoBehaviour, IAnimationHandler
         var rightNess = Vector3.Dot(rightDir, facingDir);
         rightNess = rightNess >= 0 ? 1 : -1;
 
-        myAnimator.transform.localScale = new Vector3(animatorScale.x * rightNess, animatorScale.y, animatorScale.z * rightNess);
+        myAnimator.transform.localScale = new Vector3(animatorScale.x * rightNess, animatorScale.y, animatorScale.z);
+
+        var myProperties = myMaterial.GetTexturePropertyNames();
+        if(myMaterial.HasProperty("Vector1_5F0D68EE"))
+            myMaterial.SetFloat("Vector1_5F0D68EE", rightNess);
     }
 }
