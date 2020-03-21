@@ -29,7 +29,10 @@ public class WorldTile : MonoBehaviour
             if(debugFloor != null)
                 Destroy(debugFloor.gameObject);
         }
+    }
 
+    public WorldTileSubtype SpawnSubtype()
+    {
         if (!SubTypesCache.ContainsKey(MyType))
         {
             SubTypesCache[MyType] = Resources.LoadAll<WorldTileSubtype>("Prefab/WorldTiles/" + MyType.ToString());
@@ -39,6 +42,6 @@ public class WorldTile : MonoBehaviour
 
         var toSpawn = subTypes[Random.Range(0, subTypes.Length - 1)];
 
-        Instantiate(toSpawn, transform);
+        return Instantiate(toSpawn, transform);
     }
 }

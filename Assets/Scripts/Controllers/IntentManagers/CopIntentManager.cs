@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Linq;
-
+using System.Collections.Generic;
 public class CopIntentManager : MonoBehaviour, IIntentManager
 {
     public Vector2? moveIntent { get; private set; } = Vector2.zero;
@@ -14,6 +14,7 @@ public class CopIntentManager : MonoBehaviour, IIntentManager
     public Vector3? mouseLocation { get; private set; } = null;
 
     public float AggroRange = 10f;
+    public float PathfindingFudgeRange = 0.5f;
 
     //TODO: public float AggroThreshold
 
@@ -23,10 +24,14 @@ public class CopIntentManager : MonoBehaviour, IIntentManager
 
     private ITargetingHandler targeting;
 
+    private IPathHandler pathing;
+
+    private List<Vector3> path = new List<Vector3>();
 
     void Start()
     {
         targeting = GetComponent<ITargetingHandler>();
+        pathing = GetComponent<IPathHandler>();
     }
 
     public void UpdateIntent()
@@ -52,6 +57,21 @@ public class CopIntentManager : MonoBehaviour, IIntentManager
         if(aggro && target != null)
         {
             moveTarget = target.position;
+        }
+        else if(pathing != null && pathing.PathingReady)
+        {
+            if (path.Count > 0 && ((path[0] - transform.position).magnitude < PathfindingFudgeRange))
+            {
+                path.RemoveAt(0);
+            }
+            if (path.Count > 0)
+            {
+                moveTarget = path[0];
+            }
+            else 
+            {
+                path = pathing.GetPath(pathing.RandomPoint.Value);
+            }
         }
 
         action1 = aggro;

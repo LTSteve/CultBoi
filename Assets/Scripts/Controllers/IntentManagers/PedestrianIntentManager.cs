@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class PedestrianIntentManager : MonoBehaviour, IIntentManager
 {
@@ -14,11 +15,38 @@ public class PedestrianIntentManager : MonoBehaviour, IIntentManager
 
     public float DoubletimeModifier = 2f;
 
+    public float PathfindingFudgeRange = 0.5f;
+
+    private IPathHandler pathing;
+
+    private List<Vector3> path = new List<Vector3>();
+
+    void Start()
+    {
+        pathing = GetComponent<IPathHandler>();
+    }
+
     public void UpdateIntent()
     {
         moveIntent = null;
         moveTarget = null;
         setTarget = false;
         unsetTarget = false;
+        
+        if (pathing != null && pathing.PathingReady)
+        {
+            if (path.Count > 0 && ((path[0] - transform.position).magnitude < PathfindingFudgeRange))
+            {
+                path.RemoveAt(0);
+            }
+            if (path.Count > 0)
+            {
+                moveTarget = path[0];
+            }
+            else
+            {
+                path = pathing.GetPath(pathing.RandomPoint.Value);
+            }
+        }
     }
 }

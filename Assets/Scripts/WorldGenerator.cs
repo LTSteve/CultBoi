@@ -6,6 +6,8 @@ using System;
 
 public class WorldGenerator : MonoBehaviour
 {
+    public static WorldGenerator Instance;
+    public static PathingController Pathing;
 
     public List<Transform> WorldTiles;
 
@@ -17,21 +19,32 @@ public class WorldGenerator : MonoBehaviour
     public int VerticalMainRoadPadding = 1;
     public int MaxBranchDepth = 5;
 
+    public int PedestrianCount = 20;
+    public int CopCount = 20;
+
     public float TileWidth = 10f;
 
     private List<Transform> map = new List<Transform>();
 
     private bool[,] roadMap;
 
+    private Transform pedestrianPrefab;
+
+    public Transform player;
+
+    private void Awake()
+    {
+        Instance = this;
+        Pathing = new PathingController();
+    }
+
     void Start()
     {
         roadMap = new bool[LevelWidth, LevelHeight];
 
-        StartCoroutine(generateWorld());
-    }
+        pedestrianPrefab = Resources.Load<Transform>("Prefab/Entities/Pedestrian");
 
-    void Update()
-    {
+        StartCoroutine(generateWorld());
     }
 
     private IEnumerator generateWorld()
@@ -42,6 +55,8 @@ public class WorldGenerator : MonoBehaviour
         //grab a random start and end point from n = 0 and n = len - 1
         var vertMainRoad = UnityEngine.Random.Range(0, LevelHeight - VerticalMainRoadPadding * 2) + VerticalMainRoadPadding;
         var startPoint = new Vector2Int(0, vertMainRoad);
+
+        player.position = new Vector3(0, 0, startPoint.y * TileWidth);
 
         //ensure the endPoint is on the opposite side of the map from the startPoint
         vertMainRoad = UnityEngine.Random.Range(0, LevelHeight / 2 - VerticalMainRoadPadding) + VerticalMainRoadPadding;
@@ -212,90 +227,136 @@ public class WorldGenerator : MonoBehaviour
             yield return null;
         }
 
-        //'grow'[Non Road Growth Count] tiles from the road
-        //fill the rest of the grid with impassable terrain
+        //finish pathing setup
+
+        var filter = map.Select(x => x.position).ToList();
+
+        Pathing.LinkExitNodes(filter);
+
+        var mapCenter = new Vector3((LevelWidth / 2f) * TileWidth, 0, (LevelHeight / 2f) * TileWidth);
+
+        //spawn pedestrians
+        for(var i = 0; i < PedestrianCount; i++)
+        {
+            var ped = Instantiate(pedestrianPrefab,
+                new Vector3(UnityEngine.Random.value * (LevelWidth - 1) * TileWidth, 0, UnityEngine.Random.value * (LevelHeight - 1) * TileWidth),
+                Quaternion.identity).GetComponent<IPathHandler>();
+
+            if (ped == null) continue;
+
+            ped.RegisterPathfinder(Pathing);
+        }
 
         yield return null;
+    }
+
+    private void AddTileToMap(Transform added)
+    {
+        map.Add(added);
+
+        var tile = added.GetComponent<WorldTile>();
+
+        if (tile == null) 
+            return;
+
+        var subTile = tile.SpawnSubtype();
+
+        var pedWalk = subTile.GetComponentInChildren<Pedwalk>();
+
+        if (pedWalk == null) 
+            return;
+
+        foreach(Transform pedTransform in pedWalk.transform)
+        {
+            var pedpoint = pedTransform.GetComponent<PedwalkPoint>();
+
+            pedpoint.Registered = Pathing.RegisterNode(pedpoint.transform.position, pedpoint.exitPoint, pedpoint);
+
+            foreach(var connection in pedpoint.Connections)
+            {
+                if (Pathing.RegisterPath(pedpoint.transform.position, connection.transform.position))
+                    pedpoint.RegisteredConnections.Add(connection.transform.position);
+            }
+        }
     }
 
     private void CreateWorldTile(int i, int j, bool me, bool left, bool right, bool down, bool up)
     {
         var position = new Vector3(i * TileWidth, 0, j * TileWidth) + transform.position;
-
         //nothing
         if (!me)
         {
-            map.Add(Instantiate(WorldTiles[6], position, Quaternion.identity, transform));
+            AddTileToMap(Instantiate(WorldTiles[6], position, Quaternion.identity, transform));
         }
         //Intersection
         else if (left && right && up && down)
         {
-            map.Add(Instantiate(WorldTiles[1], position, Quaternion.identity, transform));
+            AddTileToMap(Instantiate(WorldTiles[1], position, Quaternion.identity, transform));
         }
         //T Junctions
         else if (left && right && up)
         {
-            map.Add(Instantiate(WorldTiles[4], position, Quaternion.identity, transform));
+            AddTileToMap(Instantiate(WorldTiles[4], position, Quaternion.identity, transform));
         }
         else if (left && right && down)
         {
-            map.Add(Instantiate(WorldTiles[4], position, Quaternion.Euler(0, 180, 0), transform));
+            AddTileToMap(Instantiate(WorldTiles[4], position, Quaternion.Euler(0, 180, 0), transform));
         }
         else if (up && down && right)
         {
-            map.Add(Instantiate(WorldTiles[4], position, Quaternion.Euler(0, 90, 0), transform));
+            AddTileToMap(Instantiate(WorldTiles[4], position, Quaternion.Euler(0, 90, 0), transform));
         }
         else if (up && down && left)
         {
-            map.Add(Instantiate(WorldTiles[4], position, Quaternion.Euler(0, -90, 0), transform));
+            AddTileToMap(Instantiate(WorldTiles[4], position, Quaternion.Euler(0, -90, 0), transform));
         }
         //Straights
         else if (left && right)
         {
-            map.Add(Instantiate(WorldTiles[2], position, Quaternion.identity, transform));
+            AddTileToMap(Instantiate(WorldTiles[2], position, Quaternion.identity, transform));
         }
         else if (up && down)
         {
-            map.Add(Instantiate(WorldTiles[2], position, Quaternion.Euler(0, 90, 0), transform));
+            AddTileToMap(Instantiate(WorldTiles[2], position, Quaternion.Euler(0, 90, 0), transform));
         }
         //Turns
         else if (left && down)
         {
-            map.Add(Instantiate(WorldTiles[3], position, Quaternion.identity, transform));
+            AddTileToMap(Instantiate(WorldTiles[3], position, Quaternion.identity, transform));
         }
         else if (down && right)
         {
-            map.Add(Instantiate(WorldTiles[3], position, Quaternion.Euler(0, -90, 0), transform));
+            AddTileToMap(Instantiate(WorldTiles[3], position, Quaternion.Euler(0, -90, 0), transform));
         }
         else if (right && up)
         {
-            map.Add(Instantiate(WorldTiles[3], position, Quaternion.Euler(0, 180, 0), transform));
+            AddTileToMap(Instantiate(WorldTiles[3], position, Quaternion.Euler(0, 180, 0), transform));
         }
         else if (up && left)
         {
-            map.Add(Instantiate(WorldTiles[3], position, Quaternion.Euler(0, 90, 0), transform));
+            AddTileToMap(Instantiate(WorldTiles[3], position, Quaternion.Euler(0, 90, 0), transform));
         }
         //Dead Ends
         else if (left)
         {
-            map.Add(Instantiate(WorldTiles[0], position, Quaternion.Euler(0, 180, 0), transform));
+            AddTileToMap(Instantiate(WorldTiles[0], position, Quaternion.Euler(0, 180, 0), transform));
         }
         else if (right)
         {
-            map.Add(Instantiate(WorldTiles[0], position, Quaternion.identity, transform));
+            AddTileToMap(Instantiate(WorldTiles[0], position, Quaternion.identity, transform));
         }
         else if (down)
         {
-            map.Add(Instantiate(WorldTiles[0], position, Quaternion.Euler(0, 90, 0), transform));
+            AddTileToMap(Instantiate(WorldTiles[0], position, Quaternion.Euler(0, 90, 0), transform));
         }
         else if (up)
         {
-            map.Add(Instantiate(WorldTiles[0], position, Quaternion.Euler(0, -90, 0), transform));
+            AddTileToMap(Instantiate(WorldTiles[0], position, Quaternion.Euler(0, -90, 0), transform));
         }
         //nothing
         else
         {
-            map.Add(Instantiate(WorldTiles[6], position, Quaternion.identity, transform));
+            AddTileToMap(Instantiate(WorldTiles[6], position, Quaternion.identity, transform));
         }
     }
 
