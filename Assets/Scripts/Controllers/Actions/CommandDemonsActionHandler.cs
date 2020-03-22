@@ -38,8 +38,6 @@ public abstract class CommandDemonsActionHandler : MonoBehaviour, IActionHandler
     {
         var mouseLoc = intent.mouseLocation.HasValue ? intent.mouseLocation.Value : Vector3.zero;
 
-        mouseLoc = mouseLoc / 2;
-
         rayBoi = Camera.main.ScreenPointToRay(mouseLoc);
         var intersectionPlane = new Plane(Vector3.up, transform.position);
         intersectionPlane.Raycast(rayBoi.Value, out var enter);
