@@ -11,6 +11,7 @@ public interface IIntentManager
     Vector3? mouseLocation { get; }
     bool setTarget { get; }
     bool unsetTarget { get; }
+    bool Teleport { get; }
 
     void UpdateIntent();
 }

@@ -25,6 +25,12 @@ public class BasicMover : MonoBehaviour, IMover
 
     public virtual void Move(IIntentManager intent)
     {
+        if (intent.Teleport && intent.moveTarget.HasValue)
+        {
+            transform.position = intent.moveTarget.Value;
+            return;
+        }
+
         var point = intent.moveTarget;
         var moveIntent = intent.moveIntent;
 

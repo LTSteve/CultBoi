@@ -8,6 +8,8 @@ public abstract class CommandDemonsActionHandler : MonoBehaviour, IActionHandler
 
     protected bool wasActive = false;
 
+    public Transform Target;
+
     public virtual void HandleAction(IIntentManager intent)
     {
         var acting = (ActionNumber == 1 && intent.action1) ||
@@ -21,6 +23,13 @@ public abstract class CommandDemonsActionHandler : MonoBehaviour, IActionHandler
             commandLocation = GetCommandLocation(intent);
             var command = BuildCommand(commandLocation);
 
+            if (Target != null)
+            {
+                Target.gameObject.SetActive(true);
+
+                Target.position = commandLocation;
+            }
+
             MessageHandler.SendMessage(command);
             wasActive = true;
         }
@@ -28,6 +37,13 @@ public abstract class CommandDemonsActionHandler : MonoBehaviour, IActionHandler
         {
             wasActive = false;
             MessageHandler.SendMessage<Command>(null);
+
+            if (Target != null)
+            {
+                Target.gameObject.SetActive(false);
+
+                Target.position = commandLocation;
+            }
         }
     }
 
