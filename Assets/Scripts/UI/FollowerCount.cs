@@ -16,7 +16,12 @@ public class FollowerCount : MonoBehaviour
 
     private void Update()
     {
-        var total = CultistManagerHack.cultists.Count + DemonManagerHack.demons.Count;
+        var total = CultistManagerHack.cultists.Count;
+
+        foreach (var demon in DemonManagerHack.demons)
+        {
+            total += demon.Value.Count;
+        }
         MyText.text = ""+Mathf.Clamp(total, 0, 999);
     }
 }

@@ -234,6 +234,24 @@ public class WorldGenerator : MonoBehaviour
             yield return null;
         }
 
+        //add extra trees around parimiter
+        for(var i = -1; i <= LevelWidth; i++)
+        {
+            CreateWorldTile(i, -1, false, false, false, false, false);
+            CreateWorldTile(i, LevelHeight, false, false, false, false, false);
+            if(i % 10 == 0)
+                yield return null;
+        }
+        yield return null;
+        for (var i = 0; i < LevelHeight; i++)
+        {
+            CreateWorldTile(-1, i, false, false, false, false, false);
+            CreateWorldTile(LevelWidth, i, false, false, false, false, false);
+            if (i % 10 == 0)
+                yield return null;
+        }
+        yield return null;
+
         //finish pathing setup
 
         var filter = map.Select(x => x.position).ToList();
@@ -333,8 +351,9 @@ public class WorldGenerator : MonoBehaviour
     private void CreateWorldTile(int i, int j, bool me, bool left, bool right, bool down, bool up)
     {
         var position = new Vector3(i * TileWidth, 0, j * TileWidth) + transform.position;
+
         //nothing
-        if (!me)
+        if(!me)
         {
             AddTileToMap(Instantiate(WorldTiles[6], position, Quaternion.identity, transform));
         }

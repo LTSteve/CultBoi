@@ -30,9 +30,9 @@ public class BuyMenu : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-        handRoot = Hand.transform.position;
+        handRoot = Hand.transform.localPosition;
         outlineBaseColor = Hand.color;
-        baseLocation = Hand.transform.position;
+        baseLocation = Hand.transform.localPosition;
         gameObject.SetActive(false);
     }
 
@@ -76,12 +76,11 @@ public class BuyMenu : MonoBehaviour
 
     public void Hover(int choice)
     {
-        Debug.Log("Hover");
         active = choice;
         audio.Play();
         Hand.gameObject.SetActive(true);
-        Hand.transform.position = handRoot + Vector3.right * (choice * 60 - 130);
-        baseLocation = Hand.transform.position;
+        Hand.transform.localPosition = handRoot + Vector3.right * (choice * 60 - 130);
+        baseLocation = Hand.transform.localPosition;
     }
 
     public void UnHover(int choice)
@@ -101,12 +100,12 @@ public class BuyMenu : MonoBehaviour
         if (doAShake > 0)
         {
             Hand.color = OutlineShakeColor;
-            Hand.transform.position = baseLocation + UnityEngine.Random.insideUnitSphere;
+            Hand.transform.localPosition = baseLocation + UnityEngine.Random.insideUnitSphere;
         }
         else
         {
             Hand.color = outlineBaseColor;
-            Hand.transform.position = baseLocation;
+            Hand.transform.localPosition = baseLocation;
         }
     }
 }

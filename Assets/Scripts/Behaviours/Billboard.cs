@@ -11,7 +11,7 @@ public class Billboard : MonoBehaviour
     protected virtual void Start()
     {
         camera = Camera.main;
-        originalRotation = transform.rotation;
+        originalRotation = Quaternion.Euler(Vector3.forward);// transform.rotation;
     }
 
     protected virtual void Update()

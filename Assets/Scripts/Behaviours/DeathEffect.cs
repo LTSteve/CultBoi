@@ -12,6 +12,10 @@ public class DeathEffect : MonoBehaviour
 
     public Transform BloodPrefab;
 
+    public Sprite[] FloorBlood;
+    public Sprite[] WallBlood;
+    public Sprite[] LightBlood;
+
     private ParticleSystem myParticles;
 
     private bool firstUpdate = true;
@@ -40,8 +44,27 @@ public class DeathEffect : MonoBehaviour
 
                 if(Physics.Raycast(ray, out var hitInfo, SplatterDistance, LayerMask.GetMask(Mask)))
                 {
-                    Instantiate(BloodPrefab, hitInfo.point + (transform.position - hitInfo.point) * 0.01f, 
-                        Quaternion.Euler(_nintyize(hitInfo.normal.x), _nintyize(hitInfo.normal.y), _nintyize(hitInfo.normal.z)));
+                    var rotation = Quaternion.FromToRotation(Vector3.up, hitInfo.normal);
+
+                    Sprite sprite = null;
+
+                    if(hitInfo.distance > (SplatterDistance * 0.7f))
+                    {
+                        sprite = LightBlood[Random.Range(0, LightBlood.Length)];
+                    }
+                    else if (hitInfo.normal.y > hitInfo.normal.x && hitInfo.normal.y > hitInfo.normal.z)
+                    {
+                        sprite = FloorBlood[Random.Range(0, FloorBlood.Length)];
+                    }
+                    else;
+                    {
+                        sprite = WallBlood[Random.Range(0, WallBlood.Length)];
+                    }
+
+                    var blood = Instantiate(BloodPrefab, hitInfo.point + (transform.position - hitInfo.point) * 0.01f,
+                        rotation);
+                    var bloodSprite = blood.GetComponentInChildren<SpriteRenderer>();
+                    bloodSprite.sprite = sprite;
                 }
             }
         }
