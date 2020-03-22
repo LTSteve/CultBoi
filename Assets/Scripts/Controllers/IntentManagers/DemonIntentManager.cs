@@ -13,6 +13,7 @@ public class DemonIntentManager : MonoBehaviour, IIntentManager
     public Vector3? mouseLocation { get; private set; } = null;
 
     public float DoubletimeModifier = 2f;
+    public bool Teleport { get; private set; } = true;
 
 
     private IReciever<Command> commandReciever;
@@ -35,6 +36,7 @@ public class DemonIntentManager : MonoBehaviour, IIntentManager
         moveTarget = null;
         setTarget = false;
         unsetTarget = false;
+        Teleport = false;
 
         action1 = action2 = action3 = false;
 

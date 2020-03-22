@@ -17,7 +17,7 @@ public class PressButtonInterfaceMessage : InterfaceMessage
 
     private void Update()
     {
-        if (Input.GetKey(key))
+        if (Input.GetKey(key) || Input.GetButton("knock on door"))
         {
             Feedback?.Invoke();
         }
@@ -29,6 +29,6 @@ public class PressButtonInterfaceMessage : InterfaceMessage
 
         var text = GetComponentInChildren<Text>();
 
-        text.text = key.ToString();
+        text.text = "F | (A)";//key.ToString();
     }
 }

@@ -107,5 +107,15 @@ public class BuyMenu : MonoBehaviour
             Hand.color = outlineBaseColor;
             Hand.transform.localPosition = baseLocation;
         }
+
+        if (!KeyboardMouseIntentManager.mouseMode)
+        {
+            var leftRight = Input.GetAxis("horizontalright");
+
+            if(leftRight < 0)
+            {
+
+            }
+        }
     }
 }

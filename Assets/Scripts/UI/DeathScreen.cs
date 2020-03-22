@@ -29,6 +29,7 @@ public class DeathScreen : MonoBehaviour
         Player.position = WorldGenerator.StartPoint;//TODO: regenerate world
         Player.GetComponent<IAnimationHandler>()?.Reset();
         Player.GetComponent<IHealthHandler>()?.Reset();
+        HealthBar.Instance.Reset();
         CopAlert.Reset();
         Close();
     }

@@ -33,6 +33,12 @@ public class ForceMover : BasicMover
 
     public override void Move(IIntentManager intent)
     {
+        if (intent.Teleport && intent.moveTarget.HasValue)
+        {
+            transform.position = intent.moveTarget.Value;
+            return;
+        }
+
         forceDir = Vector3.zero;
 
         var moveForce = MoveSpeed * Acceleration;

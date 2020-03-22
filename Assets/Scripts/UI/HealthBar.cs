@@ -29,4 +29,13 @@ public class HealthBar : MonoBehaviour
             Hearts[i].gameObject.SetActive(heartNo > i);
         }
     }
+
+    public void Reset()
+    {
+
+        for (var i = 0; i < Hearts.Length; i++)
+        {
+            Hearts[i].gameObject.SetActive(true);
+        }
+    }
 }

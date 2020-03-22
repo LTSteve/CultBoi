@@ -15,7 +15,7 @@ public class PlayerRotator : MonoBehaviour, IRotator
         if (intent == 0) return;
 
         var rotateFrom = rotateTo.HasValue ? rotateTo.Value : transform.rotation;
-        rotateTo = rotateFrom * Quaternion.Euler(0, RotationDegrees * intent, 0);
+        rotateTo = rotateFrom * Quaternion.Euler(0, RotationDegrees * -intent, 0);
         completeness = 0f;
     }
 
