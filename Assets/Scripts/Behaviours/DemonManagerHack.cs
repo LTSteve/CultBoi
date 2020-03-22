@@ -19,5 +19,24 @@ public class DemonManagerHack : MonoBehaviour
         {
             demons[demonType] = new List<DemonManagerHack> { this };
         }
+
+        var death = GetComponent<IHealthHandler>();
+
+        if (death == null) return;
+
+        death.Died += OnDeath;
+    }
+
+    private void OnDeath(Transform obj)
+    {
+        if (!demons.ContainsKey(demonType))
+        {
+            return;
+        }
+
+        if (demons[demonType].Contains(this))
+        {
+            demons[demonType].Remove(this);
+        }
     }
 }

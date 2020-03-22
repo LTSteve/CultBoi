@@ -24,6 +24,10 @@ public class CopAlert : MonoBehaviour
 
     public Text Icon;
 
+    public int GroupSize = 10;
+    public float SecondsPerWave = 10;
+    private float timeSinceLastWave = 0;
+
     public Color StartColor;
     public Color EndColor;
 
@@ -39,12 +43,15 @@ public class CopAlert : MonoBehaviour
 
     private void Update()
     {
+        if (PauseMenu.IsOpen) return;
+
         if(_level >= 1)
         {
             _maxed = true;
             _level = 1;
 
-            Icon.color = EndColor;
+            if(Icon != null)
+                Icon.color = EndColor;
         }
         else if(_lastLevel >= _level)
         {
@@ -52,10 +59,24 @@ public class CopAlert : MonoBehaviour
             _level = _level < 0f ? 0f : _level;
         }
 
+        if (_maxed)
+        {
+            timeSinceLastWave += Time.deltaTime;
+
+            if(timeSinceLastWave >= SecondsPerWave)
+            {
+                WorldGenerator.Instance.SpawnCops(GroupSize);
+                timeSinceLastWave = 0;
+            }
+        }
+
         _lastLevel = _level;
 
-        Bar.transform.localScale = new Vector3(1, _level, 1);
-        Bar.color = Color.Lerp(StartColor, EndColor, _level);
+        if(Bar != null)
+        {
+            Bar.transform.localScale = new Vector3(1, _level, 1);
+            Bar.color = Color.Lerp(StartColor, EndColor, _level);
+        }
     }
 
     public static void Reset()

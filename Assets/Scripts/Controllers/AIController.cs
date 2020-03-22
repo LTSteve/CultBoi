@@ -5,6 +5,8 @@ public class AIController : Controller
 {
     protected override void Update()
     {
+        if (PauseMenu.IsOpen) return;
+
         intentManager.UpdateIntent();
 
         if (mover != null)

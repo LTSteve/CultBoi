@@ -9,5 +9,19 @@ public class CultistManagerHack : MonoBehaviour
     private void Start()
     {
         cultists.Add(this);
+
+        var death = GetComponent<IHealthHandler>();
+
+        if (death == null) return;
+
+        death.Died += OnDeath;
+    }
+
+    private void OnDeath(Transform obj)
+    {
+        if (cultists.Contains(this))
+        {
+            cultists.Remove(this);
+        }
     }
 }

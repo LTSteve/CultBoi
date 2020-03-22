@@ -26,31 +26,65 @@ public class SpawnDemonActionHandler : MonoBehaviour, IActionHandler
 
         if (buyMenu == null) return;
 
-        buyMenu.Open((demonNo) => {
+        buyMenu.Toggle((demonNo) => {
 
             DemonManagerHack spawn;
 
-            var upgradeStatus = demonNo / 10;
-            demonNo = demonNo % 10;
-
-            if (upgradeStatus > 0)
-            {
-                if(!_sacrifice((demonNo + 1) * 2, demonNo, upgradeStatus - 1)) { return false; }
-
-                spawn = demonPrefabs.FirstOrDefault(x => x.demonType == demonNo && x.demonUpgrade == upgradeStatus);
-            }
-            else
-            {
-                if (!_sacrifice(demonNo + 1, -1)) { return false; }
-
-                spawn = demonPrefabs.FirstOrDefault(x => x.demonType == demonNo && x.demonUpgrade == 0);
-            }
+            spawn = demonPrefabs.FirstOrDefault(x => x.demonType == demonNo);
 
             if (spawn == null) { return false; }
 
+            if (!_sacrifice(demonNo, spawn)) { return false; }
+
+            return true;
+        });
+    }
+
+    private bool _sacrifice(int demon, DemonManagerHack toSpawn)
+    {
+        if(demon == 0)
+        {
+
+            if (CultistManagerHack.cultists.Count < 1)
+            {
+                return false;
+            }
+
+            var cultistsToSacrifice = CultistManagerHack.cultists.GetRange(0, 1);
+            CultistManagerHack.cultists.RemoveRange(0, 1);
+
+            StartCoroutine(_staggeredSacrifice(cultistsToSacrifice,toSpawn));
+
+            return true;
+        }
+
+        if (!DemonManagerHack.demons.ContainsKey(demon-1) || DemonManagerHack.demons[demon-1].Count < 2)
+        {
+            return false;
+        }
+
+        var toSacrifice = DemonManagerHack.demons[demon-1].GetRange(0, 2);
+        DemonManagerHack.demons[demon-1].RemoveRange(0, 2);
+
+        StartCoroutine(_staggeredSacrificeDemons(toSacrifice, toSpawn, 1));
+
+        return true;
+    }
+
+    IEnumerator _staggeredSacrifice(List<CultistManagerHack> cultists, DemonManagerHack toSpawn)
+    {
+        yield return null;
+
+        while(cultists.Count > 0)
+        {
+            var cultist = cultists[0];
+            var location = cultist.transform.position;
+            cultist.GetComponent<IHealthHandler>()?.Damage(10000);
+            cultists.RemoveAt(0);
+
             var demon = Instantiate(
-                spawn,
-                transform.position, Quaternion.identity);
+                toSpawn,
+                location, Quaternion.identity);
 
             var intentManager = demon.GetComponent<DemonIntentManager>();
             if (intentManager != null)
@@ -59,63 +93,38 @@ public class SpawnDemonActionHandler : MonoBehaviour, IActionHandler
                 intentManager.parent = transform;
             }
 
-            return true;
-        });
-    }
-
-    private bool _sacrifice(int cost, int demonNo, int demonUpgrade = -1)
-    {
-        if(demonNo == -1)
-        {
-
-            if (CultistManagerHack.cultists.Count < cost)
-            {
-                return false;
-            }
-
-            var cultistsToSacrifice = CultistManagerHack.cultists.GetRange(0, cost);
-            CultistManagerHack.cultists.RemoveRange(0, cost);
-
-            StartCoroutine(_staggeredSacrifice(cultistsToSacrifice));
-
-            return true;
-        }
-
-
-
-        if (!DemonManagerHack.demons.ContainsKey(demonNo) || DemonManagerHack.demons[demonNo].Count < cost)
-        {
-            return false;
-        }
-
-        var toSacrifice = DemonManagerHack.demons[demonNo].GetRange(0, cost);
-        DemonManagerHack.demons[demonNo].RemoveRange(0, cost);
-
-        StartCoroutine(_staggeredSacrificeDemons(toSacrifice));
-
-        return true;
-    }
-
-    IEnumerator _staggeredSacrifice(List<CultistManagerHack> cultists)
-    {
-        yield return new WaitForSeconds(0.5f);
-
-        while(cultists.Count > 0)
-        {
-            cultists[0].GetComponent<IHealthHandler>()?.Damage(10000);
-            cultists.RemoveAt(0);
-
             yield return new WaitForSeconds(UnityEngine.Random.value * 0.1f);
         }
     }
 
-    IEnumerator _staggeredSacrificeDemons(List<DemonManagerHack> demons)
+    IEnumerator _staggeredSacrificeDemons(List<DemonManagerHack> demons, DemonManagerHack toSpawn, int numberToSpawn)
     {
+        var spawned = 0;
+
         yield return new WaitForSeconds(0.5f);
         while (demons.Count > 0)
         {
-            demons[0].GetComponent<IHealthHandler>()?.Damage(10000);
+            var toKill = demons[0];
+            var location = toKill.transform.position;
+
+            toKill.GetComponent<IHealthHandler>()?.Damage(10000);
             demons.RemoveAt(0);
+
+            if(spawned < numberToSpawn)
+            {
+                spawned++;
+
+                var demon = Instantiate(
+                    toSpawn,
+                    location, Quaternion.identity);
+
+                var intentManager = demon.GetComponent<DemonIntentManager>();
+                if (intentManager != null)
+                {
+                    intentManager.formation = GetComponent<IFormationHandler>();
+                    intentManager.parent = transform;
+                }
+            }
 
             yield return new WaitForSeconds(UnityEngine.Random.value * 0.1f);
         }

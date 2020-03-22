@@ -26,6 +26,7 @@ public class HouseController : MonoBehaviour
 
     private void Start()
     {
+        if (PauseMenu.IsOpen) return;
         _doDirtyRandomGeneration();
 
         triggerHandler = GetComponentInChildren<ITriggerHandler>();

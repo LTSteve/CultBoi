@@ -77,8 +77,6 @@ public class PathingController
     private int duplicateFiltered = 0;
     public void LinkExitNodes(List<Vector3> filter)
     {
-
-        Debug.Log("total nodes: " + exitNodes.Count);
         foreach (var node in exitNodes)
         {
             var toLink = _findNearestNode(node.Position, true, filter);

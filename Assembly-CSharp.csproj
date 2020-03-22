@@ -63,6 +63,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\Behaviours\AimBoi.cs" />
     <Compile Include="Assets\Scripts\Behaviours\Billboard.cs" />
     <Compile Include="Assets\Scripts\Behaviours\CultistManagerHack.cs" />
     <Compile Include="Assets\Scripts\Behaviours\DeathEffect.cs" />
@@ -71,6 +72,7 @@
     <Compile Include="Assets\Scripts\Behaviours\HouseDisplayGizmo.cs" />
     <Compile Include="Assets\Scripts\Behaviours\Pedwalk.cs" />
     <Compile Include="Assets\Scripts\Behaviours\PedwalkPoint.cs" />
+    <Compile Include="Assets\Scripts\Behaviours\SoundtrackHandler.cs" />
     <Compile Include="Assets\Scripts\Behaviours\Spin.cs" />
     <Compile Include="Assets\Scripts\Controllers\Actions\AttackActions\AttackActionHandler.cs" />
     <Compile Include="Assets\Scripts\Controllers\Actions\AttackActions\BasicAttackActionHandler.cs" />
@@ -116,10 +118,6 @@
     <Compile Include="Assets\Scripts\Messaging\MessageHandler.cs" />
     <Compile Include="Assets\Scripts\Models\Command.cs" />
     <Compile Include="Assets\Scripts\Pathfinding\AStar.cs" />
-    <Compile Include="Assets\Scripts\Pathfinding\Example\GridBase.cs" />
-    <Compile Include="Assets\Scripts\Pathfinding\Example\Node.cs" />
-    <Compile Include="Assets\Scripts\Pathfinding\Example\Pathfinder.cs" />
-    <Compile Include="Assets\Scripts\Pathfinding\Example\PathfindMaster.cs" />
     <Compile Include="Assets\Scripts\Pathfinding\PathingController.cs" />
     <Compile Include="Assets\Scripts\Rendering\CommandBufferBlur.cs" />
     <Compile Include="Assets\Scripts\Rendering\PerObjectBloom.cs" />
@@ -128,7 +126,11 @@
     <Compile Include="Assets\Scripts\UI\BuyMenu.cs" />
     <Compile Include="Assets\Scripts\UI\CopAlert.cs" />
     <Compile Include="Assets\Scripts\UI\DeathScreen.cs" />
+    <Compile Include="Assets\Scripts\UI\FollowerCount.cs" />
+    <Compile Include="Assets\Scripts\UI\HealthBar.cs" />
+    <Compile Include="Assets\Scripts\UI\HoverResponse.cs" />
     <Compile Include="Assets\Scripts\UI\InterfaceMessage.cs" />
+    <Compile Include="Assets\Scripts\UI\PauseMenu.cs" />
     <Compile Include="Assets\Scripts\UI\PressButtonInterfaceMessage.cs" />
     <Compile Include="Assets\Scripts\WorldGenerator.cs" />
     <Compile Include="Assets\Scripts\WorldTile.cs" />

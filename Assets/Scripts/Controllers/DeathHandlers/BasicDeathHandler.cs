@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class BasicDeathHandler : MonoBehaviour, IDeathHandler
 {
@@ -10,6 +11,9 @@ public class BasicDeathHandler : MonoBehaviour, IDeathHandler
 
     private IAnimationHandler anims;
 
+    private AudioSource oofAudio;
+    public AudioClip DieClip;
+
     void Start()
     {
         anims = GetComponent<IAnimationHandler>();
@@ -19,6 +23,15 @@ public class BasicDeathHandler : MonoBehaviour, IDeathHandler
         if (health == null) return;
 
         health.Died += Died;
+
+        if (DieClip != null)
+        {
+            oofAudio = transform.Find("Audio")?.GetComponent<AudioSource>();
+            if (oofAudio == null)
+            {
+                oofAudio = GetComponentInChildren<AudioSource>();
+            }
+        }
     }
 
     public void Died(Transform transform)
@@ -31,7 +44,30 @@ public class BasicDeathHandler : MonoBehaviour, IDeathHandler
             intentManager.formation.Remove(transform);
         }
 
-        if (!DeathAnimation)
-            Destroy(this.gameObject);
+        if (DeathAnimation)
+        {
+            if(DieClip != null)
+                oofAudio?.PlayOneShot(DieClip);
+        }
+        else if (!DeathAnimation)
+        {
+            if(oofAudio != null && DieClip!= null)
+                StartCoroutine(CryThenDie());
+            else
+                Destroy(this.gameObject);
+        }
+    }
+
+    public IEnumerator CryThenDie()
+    {
+        oofAudio.PlayOneShot(DieClip);
+
+        foreach(var renderer in GetComponentsInChildren<Renderer>())
+        {
+            renderer.enabled = false;
+        }
+
+        yield return new WaitForSeconds(1f);
+        Destroy(this.gameObject);
     }
 }

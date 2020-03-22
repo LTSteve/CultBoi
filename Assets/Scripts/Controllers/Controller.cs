@@ -32,7 +32,9 @@ public class Controller : MonoBehaviour
 
     protected virtual void Update()
     {
-        if(intentManager != null)
+        if (PauseMenu.IsOpen) return;
+
+        if (intentManager != null)
             intentManager.UpdateIntent();
 
         if (mover != null)

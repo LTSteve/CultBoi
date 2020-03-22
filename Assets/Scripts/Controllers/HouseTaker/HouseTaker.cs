@@ -29,6 +29,8 @@ public class HouseTaker : MonoBehaviour, IHouseTaker
 
     void Update()
     {
+        if (PauseMenu.IsOpen) return;
+
         if(TakingHouse && cdRemaining <= 0)
         {
             TakingHouse = false;

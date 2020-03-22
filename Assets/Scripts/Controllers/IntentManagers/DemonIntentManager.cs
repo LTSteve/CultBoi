@@ -36,6 +36,8 @@ public class DemonIntentManager : MonoBehaviour, IIntentManager
         setTarget = false;
         unsetTarget = false;
 
+        action1 = action2 = action3 = false;
+
         var activeCommand = commandReciever.activeValue;
 
         if(activeCommand != null && activeCommand.Type == CommandType.Move)

@@ -27,6 +27,6 @@ public class KeyboardMouseIntentManager : MonoBehaviour, IIntentManager
 
         action3 = Input.GetMouseButton(1);
 
-        mouseLocation = (action2 || action3) ? Input.mousePosition : (Vector3?)null;
+        mouseLocation = (action2 || action3) ? (Input.mousePosition / 2f) : (Vector3?)null;
     }
 }

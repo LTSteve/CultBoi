@@ -50,6 +50,8 @@ public class CircleFormationHandler : MonoBehaviour, IFormationHandler
 
     void Update()
     {
+        if (PauseMenu.IsOpen) return;
+
         if(moving)
             radians = (radians + CircleSpeed * Time.deltaTime) % (2 * Mathf.PI);
     }

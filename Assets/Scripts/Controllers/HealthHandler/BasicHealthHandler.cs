@@ -11,11 +11,23 @@ public class BasicHealthHandler : MonoBehaviour, IHealthHandler
     public Action<Transform> Died { get; set; }
     public Action<Transform, float> Damaged { get; set; }
 
+    private AudioSource oofAudio;
+    public AudioClip OofClip;
+
     void Start()
     {
         MaxHealth = Health;
 
         CurrentHealth = HealthStart;
+
+        if(OofClip != null)
+        {
+            oofAudio = transform.Find("Audio")?.GetComponent<AudioSource>();
+            if (oofAudio == null)
+            {
+                oofAudio = GetComponentInChildren<AudioSource>();
+            }
+        }
     }
 
     public void Damage(float amount)
@@ -27,6 +39,13 @@ public class BasicHealthHandler : MonoBehaviour, IHealthHandler
         if (CurrentHealth < 0)
         {
             Died?.Invoke(transform);
+        }
+        else
+        {
+            if(oofAudio != null)
+            {
+                oofAudio.PlayOneShot(OofClip);
+            }
         }
     }
 

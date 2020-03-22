@@ -31,13 +31,25 @@ public abstract class CommandDemonsActionHandler : MonoBehaviour, IActionHandler
         }
     }
 
+    private Ray? rayBoi = null;
+
     //optional override to change how the location is gathered
     protected virtual Vector3 GetCommandLocation(IIntentManager intent)
     {
-        var mouseRay = Camera.main.ScreenPointToRay(intent.mouseLocation.HasValue ? intent.mouseLocation.Value : Vector3.zero);
+        var mouseLoc = intent.mouseLocation.HasValue ? intent.mouseLocation.Value : Vector3.zero;
+
+        rayBoi = Camera.main.ScreenPointToRay(mouseLoc);
         var intersectionPlane = new Plane(Vector3.up, transform.position);
-        intersectionPlane.Raycast(mouseRay, out var enter);
-        return mouseRay.GetPoint(enter);
+        intersectionPlane.Raycast(rayBoi.Value, out var enter);
+        return rayBoi.Value.GetPoint(enter);
+    }
+
+    private void OnDrawGizmos()
+    {
+        if(rayBoi.HasValue)
+        {
+            Gizmos.DrawRay(rayBoi.Value);
+        }
     }
 
     protected abstract Command BuildCommand(Vector3 commandLocation);
