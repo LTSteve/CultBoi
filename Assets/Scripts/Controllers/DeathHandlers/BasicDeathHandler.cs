@@ -2,8 +2,18 @@
 
 public class BasicDeathHandler : MonoBehaviour, IDeathHandler
 {
+    public Transform DeathEffectPrefab;
+
+    public Vector3 SpatterPoint = new Vector3(0, 2, 0);
+
+    public bool DeathAnimation = true;
+
+    private IAnimationHandler anims;
+
     void Start()
     {
+        anims = GetComponent<IAnimationHandler>();
+
         var health = GetComponent<IHealthHandler>();
 
         if (health == null) return;
@@ -13,6 +23,9 @@ public class BasicDeathHandler : MonoBehaviour, IDeathHandler
 
     public void Died(Transform transform)
     {
-        Destroy(this.gameObject);
+        if (DeathEffectPrefab != null) Instantiate(DeathEffectPrefab, transform.position + SpatterPoint, Quaternion.identity);
+
+        if (!DeathAnimation)
+            Destroy(this.gameObject);
     }
 }

@@ -9,6 +9,8 @@ public class WorldGenerator : MonoBehaviour
     public static WorldGenerator Instance;
     public static PathingController Pathing;
 
+    public static Vector3 StartPoint;
+
     public List<Transform> WorldTiles;
 
     public int LevelWidth = 10;
@@ -29,6 +31,7 @@ public class WorldGenerator : MonoBehaviour
     private bool[,] roadMap;
 
     private Transform pedestrianPrefab;
+    private Transform copPrefab;
 
     public Transform player;
 
@@ -43,6 +46,7 @@ public class WorldGenerator : MonoBehaviour
         roadMap = new bool[LevelWidth, LevelHeight];
 
         pedestrianPrefab = Resources.Load<Transform>("Prefab/Entities/Pedestrian");
+        copPrefab = Resources.Load<Transform>("Prefab/Entities/Enemy");
 
         StartCoroutine(generateWorld());
     }
@@ -56,7 +60,8 @@ public class WorldGenerator : MonoBehaviour
         var vertMainRoad = UnityEngine.Random.Range(0, LevelHeight - VerticalMainRoadPadding * 2) + VerticalMainRoadPadding;
         var startPoint = new Vector2Int(0, vertMainRoad);
 
-        player.position = new Vector3(0, 0, startPoint.y * TileWidth);
+        StartPoint = new Vector3(0, 0, startPoint.y * TileWidth);
+        player.position = StartPoint;
 
         //ensure the endPoint is on the opposite side of the map from the startPoint
         vertMainRoad = UnityEngine.Random.Range(0, LevelHeight / 2 - VerticalMainRoadPadding) + VerticalMainRoadPadding;
@@ -245,8 +250,29 @@ public class WorldGenerator : MonoBehaviour
             if (ped == null) continue;
 
             ped.RegisterPathfinder(Pathing);
-        }
 
+            if((i+1)% 10 == 0)
+            {
+                yield return null;
+            }
+        }
+        
+        //spawn cops
+        for (var i = 0; i < CopCount; i++)
+        {
+            var ped = Instantiate(copPrefab,
+                new Vector3(UnityEngine.Random.value * (LevelWidth - 1) * TileWidth, 0, UnityEngine.Random.value * (LevelHeight - 1) * TileWidth),
+                Quaternion.identity).GetComponent<IPathHandler>();
+
+            if (ped == null) continue;
+
+            ped.RegisterPathfinder(Pathing);
+
+            if ((i + 1) % 10 == 0)
+            {
+                yield return null;
+            }
+        }
         yield return null;
     }
 

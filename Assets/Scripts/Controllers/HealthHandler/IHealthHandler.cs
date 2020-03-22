@@ -9,4 +9,5 @@ public interface IHealthHandler
     Action<Transform, float> Damaged { get; set; }
 
     void Damage(float amount);
+    void Reset();
 }

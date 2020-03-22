@@ -89,6 +89,7 @@ public class HouseController : MonoBehaviour
 
         if (atTheDoor != null)
         {
+            atTheDoor.TakingHouse = true;
             healthHandler.Damage(atTheDoor.DoorDamage * Time.deltaTime);
         }
     }

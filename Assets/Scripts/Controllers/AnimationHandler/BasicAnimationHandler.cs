@@ -19,6 +19,7 @@ public class BasicAnimationHandler : MonoBehaviour, IAnimationHandler
         mover = GetComponent<IMover>();
         attack = GetComponent<AttackActionHandler>();
         damage = GetComponent<IHealthHandler>();
+        var death = GetComponent<IDeathHandler>();
 
         myAnimator = GetComponentInChildren<Animator>();
         if (myAnimator == null) return;
@@ -41,7 +42,13 @@ public class BasicAnimationHandler : MonoBehaviour, IAnimationHandler
         if(damage != null)
         {
             damage.Damaged += OnDamage;
+            damage.Died += OnDeath;
         }
+    }
+
+    public void Reset()
+    {
+        myAnimator.Rebind();
     }
 
     private void OnMoving(bool moving, Vector3 direction)
@@ -59,6 +66,11 @@ public class BasicAnimationHandler : MonoBehaviour, IAnimationHandler
     {
         myAnimator.SetTrigger("Attack");
         _applyRelativeRightNess(direction);
+    }
+
+    private void OnDeath(Transform other)
+    {
+        myAnimator.SetTrigger("Dead");
     }
 
     private void _applyRelativeRightNess(Vector3 direction)
