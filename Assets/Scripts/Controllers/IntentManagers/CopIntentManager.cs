@@ -32,6 +32,17 @@ public class CopIntentManager : MonoBehaviour, IIntentManager
     {
         targeting = GetComponent<ITargetingHandler>();
         pathing = GetComponent<IPathHandler>();
+
+        var health = GetComponent<IHealthHandler>();
+        if(health != null)
+        {
+            health.Damaged += OnDamaged;
+        }
+    }
+
+    void OnDamaged(Transform other, float amound)
+    {
+        CopAlert.Level += 1;
     }
 
     public void UpdateIntent()

@@ -28,10 +28,12 @@ public class WorldGenerator : MonoBehaviour
 
     private List<Transform> map = new List<Transform>();
 
+    private List<Transform> roads = new List<Transform>();
+
     private bool[,] roadMap;
 
     private Transform pedestrianPrefab;
-    private Transform copPrefab;
+    private Transform[] copPrefabs;
 
     public Transform player;
 
@@ -46,7 +48,7 @@ public class WorldGenerator : MonoBehaviour
         roadMap = new bool[LevelWidth, LevelHeight];
 
         pedestrianPrefab = Resources.Load<Transform>("Prefab/Entities/Pedestrian");
-        copPrefab = Resources.Load<Transform>("Prefab/Entities/Enemy");
+        copPrefabs = Resources.LoadAll<Transform>("Prefab/Entities/Enemy");
 
         StartCoroutine(generateWorld());
     }
@@ -243,8 +245,10 @@ public class WorldGenerator : MonoBehaviour
         //spawn pedestrians
         for(var i = 0; i < PedestrianCount; i++)
         {
+            var randomRoad = roads[UnityEngine.Random.Range(0, roads.Count)];
+
             var ped = Instantiate(pedestrianPrefab,
-                new Vector3(UnityEngine.Random.value * (LevelWidth - 1) * TileWidth, 0, UnityEngine.Random.value * (LevelHeight - 1) * TileWidth),
+                randomRoad.position,
                 Quaternion.identity).GetComponent<IPathHandler>();
 
             if (ped == null) continue;
@@ -260,8 +264,10 @@ public class WorldGenerator : MonoBehaviour
         //spawn cops
         for (var i = 0; i < CopCount; i++)
         {
-            var ped = Instantiate(copPrefab,
-                new Vector3(UnityEngine.Random.value * (LevelWidth - 1) * TileWidth, 0, UnityEngine.Random.value * (LevelHeight - 1) * TileWidth),
+            var randomRoad = roads[UnityEngine.Random.Range(0, roads.Count)];
+
+            var ped = Instantiate(copPrefabs[UnityEngine.Random.Range(0, copPrefabs.Length)],
+                randomRoad.position,
                 Quaternion.identity).GetComponent<IPathHandler>();
 
             if (ped == null) continue;
@@ -276,9 +282,27 @@ public class WorldGenerator : MonoBehaviour
         yield return null;
     }
 
-    private void AddTileToMap(Transform added)
+    public void SpawnCops(int count)
+    {
+        for (var i = 0; i < count; i++)
+        {
+            var randomRoad = roads[UnityEngine.Random.Range(0, roads.Count)];
+
+            var ped = Instantiate(copPrefabs[UnityEngine.Random.Range(0, copPrefabs.Length)],
+                randomRoad.position,
+                Quaternion.identity).GetComponent<IPathHandler>();
+
+            if (ped == null) continue;
+
+            ped.RegisterPathfinder(Pathing);
+        }
+    }
+
+    private void AddTileToMap(Transform added, bool road = false)
     {
         map.Add(added);
+        if(road && added.position != StartPoint)
+            roads.Add(added);
 
         var tile = added.GetComponent<WorldTile>();
 
@@ -317,67 +341,67 @@ public class WorldGenerator : MonoBehaviour
         //Intersection
         else if (left && right && up && down)
         {
-            AddTileToMap(Instantiate(WorldTiles[1], position, Quaternion.identity, transform));
+            AddTileToMap(Instantiate(WorldTiles[1], position, Quaternion.identity, transform), true);
         }
         //T Junctions
         else if (left && right && up)
         {
-            AddTileToMap(Instantiate(WorldTiles[4], position, Quaternion.identity, transform));
+            AddTileToMap(Instantiate(WorldTiles[4], position, Quaternion.identity, transform), true);
         }
         else if (left && right && down)
         {
-            AddTileToMap(Instantiate(WorldTiles[4], position, Quaternion.Euler(0, 180, 0), transform));
+            AddTileToMap(Instantiate(WorldTiles[4], position, Quaternion.Euler(0, 180, 0), transform), true);
         }
         else if (up && down && right)
         {
-            AddTileToMap(Instantiate(WorldTiles[4], position, Quaternion.Euler(0, 90, 0), transform));
+            AddTileToMap(Instantiate(WorldTiles[4], position, Quaternion.Euler(0, 90, 0), transform), true);
         }
         else if (up && down && left)
         {
-            AddTileToMap(Instantiate(WorldTiles[4], position, Quaternion.Euler(0, -90, 0), transform));
+            AddTileToMap(Instantiate(WorldTiles[4], position, Quaternion.Euler(0, -90, 0), transform), true);
         }
         //Straights
         else if (left && right)
         {
-            AddTileToMap(Instantiate(WorldTiles[2], position, Quaternion.identity, transform));
+            AddTileToMap(Instantiate(WorldTiles[2], position, Quaternion.identity, transform), true);
         }
         else if (up && down)
         {
-            AddTileToMap(Instantiate(WorldTiles[2], position, Quaternion.Euler(0, 90, 0), transform));
+            AddTileToMap(Instantiate(WorldTiles[2], position, Quaternion.Euler(0, 90, 0), transform), true);
         }
         //Turns
         else if (left && down)
         {
-            AddTileToMap(Instantiate(WorldTiles[3], position, Quaternion.identity, transform));
+            AddTileToMap(Instantiate(WorldTiles[3], position, Quaternion.identity, transform), true);
         }
         else if (down && right)
         {
-            AddTileToMap(Instantiate(WorldTiles[3], position, Quaternion.Euler(0, -90, 0), transform));
+            AddTileToMap(Instantiate(WorldTiles[3], position, Quaternion.Euler(0, -90, 0), transform), true);
         }
         else if (right && up)
         {
-            AddTileToMap(Instantiate(WorldTiles[3], position, Quaternion.Euler(0, 180, 0), transform));
+            AddTileToMap(Instantiate(WorldTiles[3], position, Quaternion.Euler(0, 180, 0), transform), true);
         }
         else if (up && left)
         {
-            AddTileToMap(Instantiate(WorldTiles[3], position, Quaternion.Euler(0, 90, 0), transform));
+            AddTileToMap(Instantiate(WorldTiles[3], position, Quaternion.Euler(0, 90, 0), transform), true);
         }
         //Dead Ends
         else if (left)
         {
-            AddTileToMap(Instantiate(WorldTiles[0], position, Quaternion.Euler(0, 180, 0), transform));
+            AddTileToMap(Instantiate(WorldTiles[0], position, Quaternion.Euler(0, 180, 0), transform), true);
         }
         else if (right)
         {
-            AddTileToMap(Instantiate(WorldTiles[0], position, Quaternion.identity, transform));
+            AddTileToMap(Instantiate(WorldTiles[0], position, Quaternion.identity, transform), true);
         }
         else if (down)
         {
-            AddTileToMap(Instantiate(WorldTiles[0], position, Quaternion.Euler(0, 90, 0), transform));
+            AddTileToMap(Instantiate(WorldTiles[0], position, Quaternion.Euler(0, 90, 0), transform), true);
         }
         else if (up)
         {
-            AddTileToMap(Instantiate(WorldTiles[0], position, Quaternion.Euler(0, -90, 0), transform));
+            AddTileToMap(Instantiate(WorldTiles[0], position, Quaternion.Euler(0, -90, 0), transform), true);
         }
         //nothing
         else

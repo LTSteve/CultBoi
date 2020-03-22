@@ -22,9 +22,13 @@ public abstract class AttackActionHandler : MonoBehaviour, IActionHandler
 
     protected float attackCooldown = 0;
 
+    private AimBoi myAim;
+
     void Start()
     {
         targeting = GetComponent<ITargetingHandler>();
+
+        myAim = GetComponentInChildren<AimBoi>();
     }
 
     public void HandleAction(IIntentManager intent)
@@ -47,6 +51,8 @@ public abstract class AttackActionHandler : MonoBehaviour, IActionHandler
         }
 
         if (target == null) return;
+
+        myAim?.AimAt(target.position);
 
         var targetDistance = Vector3.Distance(target.position, transform.position);
 

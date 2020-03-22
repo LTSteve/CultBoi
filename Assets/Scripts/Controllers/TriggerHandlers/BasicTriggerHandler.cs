@@ -20,14 +20,16 @@ public class BasicTriggerHandler : MonoBehaviour, ITriggerHandler
     private Collider[] colliders;
 
     void OnDrawGizmos() {
-        Gizmos.DrawWireCube(transform.position + new Vector3(TriggerX, TriggerY, TriggerZ), new Vector3(TriggerWidth, TriggerHeight, TriggerDepth));
+        Gizmos.DrawWireCube(transform.TransformPoint( new Vector3(TriggerX, TriggerY, TriggerZ)), new Vector3(1, 1, 1));
     }
 
     void FixedUpdate()
     {
+        if (PauseMenu.IsOpen) return;
+
         var newColliders = Physics.OverlapBox(
-            transform.position + new Vector3(TriggerX, TriggerY, TriggerZ),
-            new Vector3(TriggerWidth, TriggerHeight, TriggerDepth),
+            transform.TransformPoint(new Vector3(TriggerX, TriggerY, TriggerZ)),
+            new Vector3(1,1,1),
             Quaternion.identity,
             LayerMask.GetMask(Mask)).Where( x => x.GetComponent<IHouseTaker>() != null);//TODO: put this in a house taker specific trigger settings
 
