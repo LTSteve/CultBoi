@@ -7,7 +7,7 @@ public class WorldTileSubtype : MonoBehaviour
 
     private void Start()
     {
-        var housePrefab = Resources.Load<Transform>("Prefab/Objects/House");
+        var housePrefab = Resources.Load<Transform>("Prefab/Objects/Houses/Houses");
 
         var houseSpawnPoints = transform.Find("HouseSpawnPoints");
 
