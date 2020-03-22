@@ -11,6 +11,7 @@ public class CircleFormationHandler : MonoBehaviour, IFormationHandler
     public float CircleCenterOffset = 1f;
 
     private List<IIntentManager> controlled = new List<IIntentManager>();
+    private List<IIntentManager> removed = new List<IIntentManager>();
     private float radians = 0;
 
     private bool moving = false;
@@ -27,6 +28,8 @@ public class CircleFormationHandler : MonoBehaviour, IFormationHandler
 
     public Vector3 GetMyPosition(IIntentManager intent)
     {
+        if (removed.Contains(intent)) return Vector3.zero;
+
         var formationIndex = 0;
         if (!controlled.Contains(intent))
         {
@@ -54,5 +57,14 @@ public class CircleFormationHandler : MonoBehaviour, IFormationHandler
     private void OnMove(bool m, Vector3 direction)
     {
         moving = m;
+    }
+
+    public void Remove(Transform transform)
+    {
+        var intent = transform.GetComponent<IIntentManager>();
+        if (intent == null) return;
+
+        controlled.Remove(intent);
+        removed.Add(intent);
     }
 }

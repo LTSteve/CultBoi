@@ -20,8 +20,14 @@ public class HouseController : MonoBehaviour
 
     private bool dead = false;
 
+    private GameObject closedDoor;
+    private GameObject openDoor;
+    private bool doorClosed = true;
+
     private void Start()
     {
+        _doDirtyRandomGeneration();
+
         triggerHandler = GetComponentInChildren<ITriggerHandler>();
         messageHandler = GetComponent<IMessageDisplayer>();
         healthHandler = GetComponent<IHealthHandler>();
@@ -45,10 +51,37 @@ public class HouseController : MonoBehaviour
         }
     }
 
+    private void _doDirtyRandomGeneration()
+    {
+        var root = transform.Find("HouseScale");
+
+        var doors = root.Find("Doors");
+        var windows = root.Find("Windows");
+        var houses = root.Find("Houses");
+        var colliders = root.Find("Colliders");
+
+        var doorColor = UnityEngine.Random.Range(0, 3);
+        var doorColors = new string[] { "Brown", "Red", "White" };
+        var house = UnityEngine.Random.Range(0, 5) + 1;
+
+        var closedDoor = doors.Find(doorColors[doorColor] + "/closed");
+        var openDoor = doors.Find(doorColors[doorColor] + "/open");
+
+        closedDoor.gameObject.SetActive(true);
+
+        windows.Find("windows" + house).gameObject.SetActive(true);
+
+        houses.Find("house" + house).gameObject.SetActive(true);
+
+        colliders.Find("col" + house).gameObject.SetActive(true);
+    }
+
     private void OnFinished(Transform obj)
     {
         if (dead) return;
         dead = true;
+
+        StartCoroutine(_doorStuff());
 
         var player = WorldGenerator.Instance.player;
 
@@ -92,5 +125,22 @@ public class HouseController : MonoBehaviour
             atTheDoor.TakingHouse = true;
             healthHandler.Damage(atTheDoor.DoorDamage * Time.deltaTime);
         }
+    }
+
+    private IEnumerator _doorStuff()
+    {
+        if (closedDoor != null && openDoor != null)
+        {
+
+            closedDoor.SetActive(false);
+            openDoor.SetActive(true);
+
+            yield return new WaitForSeconds(0.5f);
+
+            closedDoor.SetActive(true);
+            openDoor.SetActive(false);
+
+        }
+        yield return null;
     }
 }

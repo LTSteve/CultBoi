@@ -20,7 +20,7 @@ public class BasicTriggerHandler : MonoBehaviour, ITriggerHandler
     private Collider[] colliders;
 
     void OnDrawGizmos() {
-        Gizmos.DrawWireCube(new Vector3(TriggerX, TriggerY, TriggerZ), new Vector3(TriggerWidth, TriggerHeight, TriggerDepth));
+        Gizmos.DrawWireCube(transform.position + new Vector3(TriggerX, TriggerY, TriggerZ), new Vector3(TriggerWidth, TriggerHeight, TriggerDepth));
     }
 
     void FixedUpdate()

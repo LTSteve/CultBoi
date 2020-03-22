@@ -25,6 +25,12 @@ public class BasicDeathHandler : MonoBehaviour, IDeathHandler
     {
         if (DeathEffectPrefab != null) Instantiate(DeathEffectPrefab, transform.position + SpatterPoint, Quaternion.identity);
 
+        var intentManager = GetComponent<DemonIntentManager>();
+        if(intentManager != null && intentManager.formation != null)
+        {
+            intentManager.formation.Remove(transform);
+        }
+
         if (!DeathAnimation)
             Destroy(this.gameObject);
     }
