@@ -27,29 +27,35 @@ public class BuyMenu : MonoBehaviour
 
     private bool isOpen = false;
 
+    private Vector3 startingPos;
+
+    private float asdf = 0.2f;
+    private float countdown = 0f;
+
     private void Awake()
     {
         Instance = this;
         handRoot = Hand.transform.localPosition;
         outlineBaseColor = Hand.color;
         baseLocation = Hand.transform.localPosition;
-        gameObject.SetActive(false);
+        startingPos = gameObject.transform.localPosition;
+        gameObject.transform.localPosition = startingPos + Vector3.down * 80;
     }
 
     public void Open(Func<int, bool> callback = null)
     {
-        gameObject.SetActive(true);
         justOpened = true;
         Callback = callback;
         audio.Play();
+        gameObject.transform.localPosition = startingPos;
     }
 
     public void Close()
     {
         Hand.gameObject.SetActive(false);
-        gameObject.SetActive(false);
         justClosed = true;
         Callback = null;
+        gameObject.transform.localPosition = startingPos + Vector3.down * 80;
     }
 
     public void Toggle(Func<int, bool> callback = null)
@@ -77,10 +83,7 @@ public class BuyMenu : MonoBehaviour
     public void Hover(int choice)
     {
         active = choice;
-        audio.Play();
-        Hand.gameObject.SetActive(true);
-        Hand.transform.localPosition = handRoot + Vector3.right * (choice * 60 - 130);
-        baseLocation = Hand.transform.localPosition;
+        _movePointer();
     }
 
     public void UnHover(int choice)
@@ -110,12 +113,42 @@ public class BuyMenu : MonoBehaviour
 
         if (!KeyboardMouseIntentManager.mouseMode)
         {
-            var leftRight = Input.GetAxis("horizontalright");
-
-            if(leftRight < 0)
+            countdown -= Time.deltaTime;
+            if(countdown <= 0)
             {
+                var leftRight = Input.GetAxis("horizontalright");
 
+                leftRight = Mathf.Abs(leftRight) < 0.5f ? 0 : leftRight;
+
+                if (leftRight < 0)
+                {
+                    active = (active + 2) % 3;
+                    countdown = asdf;
+                }
+                else if (leftRight > 0)
+                {
+                    active = (active + 1) % 3;
+                    countdown = asdf;
+                }
+                
+                if(leftRight != 0)
+                    _movePointer();
+            }
+
+            var activate = Input.GetButtonDown("knock on door");
+
+            if (activate)
+            {
+                Buy(active);
             }
         }
+    }
+
+    private void _movePointer()
+    {
+        audio.Play();
+        Hand.gameObject.SetActive(true);
+        Hand.transform.localPosition = handRoot + Vector3.right * (active * 50 - 58);
+        baseLocation = Hand.transform.localPosition;
     }
 }

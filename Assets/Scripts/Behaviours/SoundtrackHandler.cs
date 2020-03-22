@@ -9,6 +9,8 @@ public class SoundtrackHandler : MonoBehaviour
 
     private float volume;
 
+    private bool firstTime = true;
+
     private void Awake()
     {
         volume = Intro.volume;
@@ -16,6 +18,14 @@ public class SoundtrackHandler : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (TextScroller.Open) { return; }
+        if(!TextScroller.Open && firstTime)
+        {
+            firstTime = false;
+            Intro.Play();
+            return;
+        }
+
         if (PauseMenu.IsOpen)
         {
             Loop.volume = volume * 0.5f;

@@ -74,6 +74,7 @@
     <Compile Include="Assets\Scripts\Behaviours\PedwalkPoint.cs" />
     <Compile Include="Assets\Scripts\Behaviours\SoundtrackHandler.cs" />
     <Compile Include="Assets\Scripts\Behaviours\Spin.cs" />
+    <Compile Include="Assets\Scripts\Behaviours\TextScroller.cs" />
     <Compile Include="Assets\Scripts\Controllers\Actions\AttackActions\AttackActionHandler.cs" />
     <Compile Include="Assets\Scripts\Controllers\Actions\AttackActions\BasicAttackActionHandler.cs" />
     <Compile Include="Assets\Scripts\Controllers\Actions\AttackWithDemonsActionHandler.cs" />
