@@ -39,6 +39,8 @@ public class KeyboardMouseIntentManager : MonoBehaviour, IIntentManager
         var y = Input.GetAxis("Vertical");
         moveIntent = new Vector2(x, y);
 
+        moveIntent = moveIntent.Value.magnitude < 0.2f ? Vector2.zero : moveIntent;
+
         lookIntent = (Input.GetButtonDown("rotateright") ? 1 : 0) - (Input.GetButtonDown("rotateleft") ? 1 : 0);
 
         action1 = Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("open buy menu");

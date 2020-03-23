@@ -34,6 +34,13 @@ public class TextScroller : MonoBehaviour
         Lines = asdf.ToArray();
 
         ui.text = string.Empty;
+
+        Voiceover.PlayOneShot(Clips[0]);
+        var bsdf = new List<AudioClip>(Clips);
+        bsdf.RemoveAt(0);
+        Clips = bsdf.ToArray();
+
+        currentLetter = 0;
     }
 
     private void Update()
@@ -56,6 +63,12 @@ public class TextScroller : MonoBehaviour
                     asdf.RemoveAt(0);
                     Lines = asdf.ToArray();
                     currentLetter = 0;
+
+                    if (Voiceover.isPlaying) Voiceover.Stop();
+                    Voiceover.PlayOneShot(Clips[0]);
+                    var bsdf = new List<AudioClip>(Clips);
+                    bsdf.RemoveAt(0);
+                    Clips = bsdf.ToArray();
 
                     tick = Tick;
                 }

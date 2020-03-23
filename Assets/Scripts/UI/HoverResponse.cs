@@ -8,6 +8,7 @@ public class HoverResponse : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 {
     public BuyMenu Menu;
     public PauseMenu PauseMenu;
+    public DeathScreen DeathScreen;
     public int Data;
 
     private bool mouseover = false;
@@ -17,6 +18,7 @@ public class HoverResponse : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         mouseover = true;
         Menu?.Hover(Data);
         PauseMenu?.Hover(Data);
+        DeathScreen?.Hover(Data);
     }
 
     public void OnPointerExit(PointerEventData eventData)
@@ -24,5 +26,6 @@ public class HoverResponse : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         mouseover = false;
         Menu?.UnHover(Data);
         PauseMenu?.UnHover(Data);
+        DeathScreen?.UnHover(Data);
     }
 }

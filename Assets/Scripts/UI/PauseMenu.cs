@@ -18,6 +18,9 @@ public class PauseMenu : MonoBehaviour
 
     private int activeOption = -1;
 
+    private float asdf = 0.2f;
+    private float countdown = 0f;
+
     private Vector3[] pointerPositions = new Vector3[] { 
         new Vector3(113, 43),
         new Vector3(112,0),
@@ -85,5 +88,38 @@ public class PauseMenu : MonoBehaviour
                 Open();
             }
         }
+
+        if (!KeyboardMouseIntentManager.mouseMode)
+        {
+            countdown -= Time.deltaTime;
+            if (countdown <= 0)
+            {
+                var leftRight = Input.GetAxis("verticalright");
+
+                leftRight = Mathf.Abs(leftRight) < 0.5f ? 0 : leftRight;
+
+                if (leftRight != 0)
+                {
+                    activeOption = activeOption == 0 ? 2 : 0;
+                    _movePointer();
+                    countdown = asdf;
+                }
+            }
+
+            var activate = Input.GetButtonDown("knock on door");
+
+            if (activate)
+            {
+                if (activeOption == 0) Close();
+                else Quit();
+            }
+        }
+    }
+
+    private void _movePointer()
+    {
+        audio.Play();
+        pointer.gameObject.SetActive(true);
+        pointer.localPosition = pointerPositions[activeOption];
     }
 }

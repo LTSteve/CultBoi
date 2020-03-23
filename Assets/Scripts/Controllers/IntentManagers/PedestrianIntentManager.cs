@@ -26,8 +26,11 @@ public class PedestrianIntentManager : MonoBehaviour, IIntentManager
 
     public float currentPatience = 10f;
 
+    private static PedestrianIntentManager me = null;
+
     void Start()
     {
+        if (me == null) me = this;
         pathing = GetComponent<IPathHandler>();
     }
 
@@ -43,24 +46,18 @@ public class PedestrianIntentManager : MonoBehaviour, IIntentManager
         {
             if (path.Count > 0 && ((path[0] - transform.position).magnitude < PathfindingFudgeRange))
             {
+                if (me == this) Debug.Log("Moving To Next Leg");
                 path.RemoveAt(0);
-                currentPatience = 10f;
             }
 
             if (path.Count > 0)
             {
                 moveTarget = path[0];
-                currentPatience -= Time.deltaTime;
-
-                if(currentPatience <= 0)
-                {
-                    Teleport = true;
-                }
             }
             else
             {
+                if (me == this) Debug.Log("Reached my destination");
                 path = pathing.GetPath(pathing.RandomPoint.Value);
-                currentPatience = 10f;
             }
         }
     }

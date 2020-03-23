@@ -94,6 +94,8 @@ public class BuyMenu : MonoBehaviour
 
     private void Update()
     {
+        if (!isOpen) return;
+
         if (justOpened || justClosed) {
             justOpened = justClosed = false;
             return;

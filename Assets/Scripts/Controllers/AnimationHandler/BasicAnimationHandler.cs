@@ -84,10 +84,12 @@ public class BasicAnimationHandler : MonoBehaviour, IAnimationHandler
         var rightNess = Vector3.Dot(rightDir, facingDir);
         rightNess = rightNess >= 0 ? 1 : -1;
 
+        var turnnedNess = Vector3.Angle(Vector3.forward, transform.forward) >= 90f ? -1 : 1;
+
         myAnimator.transform.localScale = new Vector3(animatorScale.x * rightNess, animatorScale.y, animatorScale.z);
 
         var myProperties = myMaterial.GetTexturePropertyNames();
         if(myMaterial.HasProperty("Vector1_5F0D68EE"))
-            myMaterial.SetFloat("Vector1_5F0D68EE", rightNess);
+            myMaterial.SetFloat("Vector1_5F0D68EE", rightNess * turnnedNess);
     }
 }

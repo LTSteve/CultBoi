@@ -21,8 +21,8 @@ public class WorldGenerator : MonoBehaviour
     public int VerticalMainRoadPadding = 1;
     public int MaxBranchDepth = 5;
 
-    public int PedestrianCount = 20;
-    public int CopCount = 20;
+    public int PedestrianCount = 100;
+    public int CopCount = 50;
 
     public float TileWidth = 10f;
 
